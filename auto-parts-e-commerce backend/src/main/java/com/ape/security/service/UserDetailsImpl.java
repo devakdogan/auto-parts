@@ -19,15 +19,12 @@ public class UserDetailsImpl implements UserDetails{
 
     private static final long serialVersionUID = 1L;
 
-    private String email ; // user email ile login olacağı için ekledik
+    private String email;
 
     private String password;
 
 
-    // roller Granted türünde olmalı
     private Collection<? extends GrantedAuthority> authorities;
-
-    // user --> UserDetails dönüşümünü yapacak build() metodu
     public static UserDetailsImpl build(User user) {
         List<SimpleGrantedAuthority> authorities =   user.getRoles().
                 stream().
