@@ -1,9 +1,9 @@
 package com.ape.entity;
 
 import com.ape.entity.enums.UserStatus;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -51,6 +51,9 @@ public class User {
     @NotBlank
     private String password;
 
+    @Max(5)
+    private byte loginFailCount = 0;
+
     @Column
     private LocalDateTime createAt = LocalDateTime.now();
 
@@ -71,12 +74,5 @@ public class User {
 
     @OneToMany(mappedBy = "user",orphanRemoval = true)
     private Set<Address> addresses = new HashSet<>();
-
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "t_user_favorites",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id"))
-    private List<Product> favoriteList = new ArrayList<>();
 
 }

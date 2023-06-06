@@ -6,7 +6,6 @@ import com.ape.business.abstracts.RoleService;
 import com.ape.business.abstracts.UserService;
 import com.ape.dao.UserDao;
 import com.ape.dto.request.RegisterRequest;
-import com.ape.dto.response.UserDTO;
 import com.ape.entity.ConfirmationToken;
 import com.ape.entity.Role;
 import com.ape.entity.User;
@@ -25,8 +24,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class UserManager implements UserService {
 
     private final UserDao userDao;

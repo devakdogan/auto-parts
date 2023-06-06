@@ -1,8 +1,6 @@
 package com.ape.business.abstracts;
 
 import com.ape.entity.ConfirmationToken;
-
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 public interface ConfirmationTokenService {

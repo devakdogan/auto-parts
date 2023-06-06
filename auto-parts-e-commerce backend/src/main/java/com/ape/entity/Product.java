@@ -98,9 +98,6 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @ManyToMany(mappedBy = "favoriteList")
-    private List<User> userList = new ArrayList<>();
-
     @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
     private Set<ShoppingCartItem> shoppingCartItem = new HashSet<>();
 
