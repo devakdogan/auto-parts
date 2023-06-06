@@ -24,6 +24,9 @@ spring:
           auth: true
           starttls:
             enable: true
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
   jpa:
     hibernate:
       ddl-auto: update

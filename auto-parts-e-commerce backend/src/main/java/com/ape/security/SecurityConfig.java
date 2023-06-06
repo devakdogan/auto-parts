@@ -30,6 +30,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class SecurityConfig {
 
     private final UserDetailsService userDetailsService;
+    private final PasswordEncoder passwordEncoder;
 
 
     @Bean
@@ -82,17 +83,11 @@ public class SecurityConfig {
         return new AuthTokenFilter();
     }
 
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(10);
-    }
-
     @Bean
     public DaoAuthenticationProvider authProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService);
-        authenticationProvider.setPasswordEncoder(passwordEncoder());
+        authenticationProvider.setPasswordEncoder(passwordEncoder);
         return authenticationProvider;
     }
 

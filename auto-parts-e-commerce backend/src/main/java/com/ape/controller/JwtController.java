@@ -11,9 +11,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,5 +24,12 @@ public class JwtController {
         userManager.createUser(registerRequest);
         Response response = new Response(true,ResponseMessage.REGISTER_RESPONSE_MESSAGE);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @PutMapping(path = "/confirm")
+    public ResponseEntity<DataResponse<UserDTO>> confirmAccount(@RequestParam String token){
+        UserDTO userDTO = userManager.confirmAccount(token);
+        DataResponse<UserDTO> response = new DataResponse<UserDTO>(userDTO,true,ResponseMessage.ACCOUNT_CONFIRMED_RESPONSE);
+        return ResponseEntity.ok(response);
     }
 }

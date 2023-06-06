@@ -4,10 +4,13 @@ import com.ape.business.abstracts.ConfirmationTokenService;
 import com.ape.business.abstracts.EmailService;
 import com.ape.business.abstracts.RoleService;
 import com.ape.business.abstracts.UserService;
+import com.ape.dao.ShoppingCartDao;
 import com.ape.dao.UserDao;
 import com.ape.dto.request.RegisterRequest;
+import com.ape.dto.response.UserDTO;
 import com.ape.entity.ConfirmationToken;
 import com.ape.entity.Role;
+import com.ape.entity.ShoppingCart;
 import com.ape.entity.User;
 import com.ape.entity.enums.RoleType;
 import com.ape.entity.enums.UserStatus;
@@ -15,10 +18,12 @@ import com.ape.exception.ConflictException;
 import com.ape.exception.ResourceNotFoundException;
 import com.ape.utility.ErrorMessage;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
+import org.modelmapper.spi.MatchingStrategy;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -34,10 +39,12 @@ public class UserManager implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
     private final EmailManager emailManager;
+    private final ModelMapper modelMapper;
     @Value("${management.autoparts.app.backendLink}")
     private String backendLink;
     @Value("${management.autoparts.app.resetPasswordLink}")
     private String frontendLink;
+    private final ShoppingCartDao shoppingCartDao;
 
     @Override
     public void createUser(RegisterRequest registerRequest) {
@@ -83,10 +90,53 @@ public class UserManager implements UserService {
                 emailManager.buildRegisterEmail(registerRequest.getFirstName(),link));
     }
 
-
     @Override
     public User getUserByEmail(String email) {
         return userDao.findByEmail(email).orElseThrow(()->
                 new ResourceNotFoundException(ErrorMessage.USER_NOT_FOUND_MESSAGE));
+    }
+
+    @Override
+    public UserDTO confirmAccount(String token) {
+        ConfirmationToken confirmationToken = confirmationTokenService.getToken(token).orElseThrow(() ->
+                new ResourceNotFoundException(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE));
+        if (confirmationToken.getConfirmedAt() != null) {
+            throw new IllegalStateException(ErrorMessage.EMAIL_ALREADY_CONFIRMED_MESSAGE);
+        }
+        LocalDateTime expiredAt = confirmationToken.getExpiresAt();
+        if (expiredAt.isBefore(LocalDateTime.now())) {
+            throw new IllegalStateException(ErrorMessage.TOKEN_EXPIRED_MESSAGE);
+        }
+        confirmationTokenService.setConfirmedAt(token);
+        User user = getUserByEmail(confirmationToken.getUser().getEmail());
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setCartUUID(UUID.randomUUID().toString());
+        shoppingCartDao.save(shoppingCart);
+        user.setShoppingCart(shoppingCart);
+        activateUser(user.getEmail());
+        return entityToDto(user);
+    }
+
+    @Override
+    public void activateUser(String email) {
+        UserStatus status = UserStatus.ACTIVE;
+        userDao.enableUser(status, email);
+    }
+
+    @Override
+    public User dtoToEntity(UserDTO userDTO) {
+        return null;
+    }
+
+    @Override
+    public UserDTO entityToDto(User user) {
+        return modelMapper.map(user, UserDTO.class);
+    }
+
+    @Override
+    public UserDTO getUserById(Long id) {
+        User user = userDao.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, id)));
+        return entityToDto(user);
     }
 }
