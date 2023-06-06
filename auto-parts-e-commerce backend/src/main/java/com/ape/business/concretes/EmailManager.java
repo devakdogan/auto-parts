@@ -570,7 +570,8 @@ public class EmailManager implements EmailService {
                 "                          your browser:\n" +
                 "                        </p>\n" +
                 "                            <p style=\"margin: 0\">\n" +
-                "                              <a href="+link+"\" target=\"_blank\" style=\"color: #e63946\"\n" +
+                "                              <a href="+link+"\n " +
+                "                               target=\"_blank\" style=\"color: #e63946\"\n" +
                 "                                ></a\n" +
                 "                              >\n" +
                 "                            </p>\n" +

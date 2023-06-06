@@ -1,4 +1,4 @@
-package com.ape.config;
+package com.ape.utility;
 
 import com.ape.dao.RoleDao;
 import com.ape.entity.Role;

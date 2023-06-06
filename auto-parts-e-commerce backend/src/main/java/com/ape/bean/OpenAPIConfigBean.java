@@ -1,4 +1,4 @@
-package com.ape.config.openapi;
+package com.ape.bean;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
@@ -11,5 +11,5 @@ import org.springframework.context.annotation.Configuration;
 @OpenAPIDefinition(info=@Info(title="AutoParts API", version="1.0.0"),
         security=@SecurityRequirement(name="Bearer"))
 @SecurityScheme(name="Bearer", type= SecuritySchemeType.HTTP,scheme="Bearer")
-public class OpenAPIConfig {
+public class OpenAPIConfigBean {
 }
