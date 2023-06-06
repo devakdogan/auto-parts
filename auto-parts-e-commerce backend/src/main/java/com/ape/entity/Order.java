@@ -79,9 +79,9 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "invoice_address_id")
-    private UserAddress invoiceAddress;
+    private Address invoiceAddress;
 
     @ManyToOne
     @JoinColumn(name = "shipping_address_id")
-    private UserAddress shippingAddress;
+    private Address shippingAddress;
 }

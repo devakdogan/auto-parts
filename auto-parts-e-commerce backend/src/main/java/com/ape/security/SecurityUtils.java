@@ -10,26 +10,17 @@ import java.util.Optional;
 
 public class SecurityUtils {
     public static Optional<String> getCurrentUserLogin() {
-
         SecurityContext securityContext = SecurityContextHolder.getContext();
-
         Authentication authentication =  securityContext.getAuthentication();
-
         return Optional.ofNullable(extractPrincipal(authentication));
 
     }
     private static String extractPrincipal(Authentication authentication) {
         if(authentication == null) {
-
             return null;
-
-        }else if(authentication.getPrincipal() instanceof UserDetails) {
-
-            UserDetails secureUser	= (UserDetails) authentication.getPrincipal();
+        }else if(authentication.getPrincipal() instanceof UserDetails secureUser) {
             return secureUser.getUsername();
-
         }else if(authentication.getPrincipal() instanceof String) {
-
             return (String) authentication.getPrincipal();
         }
         return null;

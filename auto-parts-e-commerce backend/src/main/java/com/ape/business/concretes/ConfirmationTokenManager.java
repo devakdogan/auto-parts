@@ -8,9 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
-
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class ConfirmationTokenManager implements ConfirmationTokenService {
 
     private final ConfirmationTokenDao confirmationTokenDao;

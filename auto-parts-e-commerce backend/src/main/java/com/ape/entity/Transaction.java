@@ -1,35 +1,30 @@
 package com.ape.entity;
 
-import jakarta.persistence.*;
+import com.ape.entity.enums.TransactionStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
-@Getter
 @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 
 @Entity
-@Table(name = "t_shopping_cart")
-public class ShoppingCart {
-
+@Table(name = "t_transaction")
+public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Enumerated(EnumType.STRING)
     @Column
-    private String cartUUID;
-    @Column
-    private Double grandTotal = 0.0;
-    @Column
+    private TransactionStatus transaction;
+
     private LocalDateTime createAt = LocalDateTime.now();
 
-    @OneToMany(mappedBy = "shoppingCart",orphanRemoval = true)
-    private List<ShoppingCartItem> shoppingCartItem = new ArrayList<>();
 }

@@ -3,7 +3,7 @@ server:
   error:
     include-binding-errors: always
     include-message: always
-    include-stacktrace: always
+    include-stacktrace: never
 
 spring:
   datasource:
@@ -65,7 +65,6 @@ management: #actuator
     app:
       jwtSecret: ${jwt_secret}
       jwtExpirationMS: 86400000
-      mailAddress: {task_mail}
       backendLink: https://localhost:8080/
       resetPasswordLink: http://localhost:3000/
 

@@ -1,9 +1,8 @@
 package com.ape.security.jwt;
 
-import lombok.RequiredArgsConstructor;
+import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,36 +17,39 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@RequiredArgsConstructor
+
+
 public class AuthTokenFilter extends OncePerRequestFilter{
 
-    private final JwtUtils jwtUtils;
+    private JwtUtils jwtUtils;
+    private UserDetailsService userDetailsService;
 
+    public AuthTokenFilter(JwtUtils jwtUtils, UserDetailsService userDetailsService){
+        this.jwtUtils = jwtUtils;
+        this.userDetailsService = userDetailsService;
+    }
 
-    private final UserDetailsService userDetailsService;
+    public AuthTokenFilter() {
+    }
 
     private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+    protected void doFilterInternal(@NonNull HttpServletRequest request,@NonNull HttpServletResponse response,@NonNull FilterChain filterChain)
             throws ServletException, IOException {
         String jwtToken = parseJwt(request);
-
         try {
             if(jwtToken!=null && jwtUtils.validateJwtToken(jwtToken)) {
                 String email = jwtUtils.getEmailFromToken(jwtToken);
                 UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-
                 UsernamePasswordAuthenticationToken authenticationToken = new
                         UsernamePasswordAuthenticationToken(userDetails,null, userDetails.getAuthorities());
-
                  SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
             }
         } catch (Exception e) {
             logger.error("User not Found{} :" , e.getMessage());
         }
-
         filterChain.doFilter(request, response);
     }
 

@@ -5,16 +5,15 @@ import com.ape.dao.RoleDao;
 import com.ape.entity.Role;
 import com.ape.entity.enums.RoleType;
 import com.ape.exception.ResourceNotFoundException;
-import com.ape.utility.DataResponse;
 import com.ape.utility.ErrorMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class RoleManager implements RoleService {
 
-    private RoleDao roleDao;
+    private final RoleDao roleDao;
     @Override
     public Role findByRoleName(RoleType roleType) {
         return roleDao.findByRoleName(roleType).orElseThrow(()->
