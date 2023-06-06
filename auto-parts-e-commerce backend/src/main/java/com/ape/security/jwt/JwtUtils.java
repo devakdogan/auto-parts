@@ -1,6 +1,6 @@
 package com.ape.security.jwt;
 
-import com.gpm.exception.message.ErrorMessage;
+import com.ape.utility.ErrorMessage;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -25,19 +25,16 @@ public class JwtUtils {
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
     @Value("${management.autoparts.app.jwtSecret}")
-    // jwtSecret değerini application.yml dosyasından alıyor
     private String jwtSecret ;
 
 
-    @Value("${management.autoparts.app.jwtExpirationMS}") // jwtExpirationMs değerini application.yml dosyasından alıyor
+    @Value("${management.autoparts.app.jwtExpirationMS}")
     private long jwtExpirationMs;
 
     private Key getSigningKey() {
-        Key key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
-        return key;
+        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
     }
 
-    // JWT token üretecek
     public String generateJwtToken(UserDetails userDetails) {
         return Jwts.builder().setSubject(userDetails.getUsername()).
                 claim("role",userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList())).
@@ -47,21 +44,19 @@ public class JwtUtils {
                 compact();
     }
 
-
-    // JWT token içinden kullanıcının email bilgisi alınacak
     public String getEmailFromToken(String token) {
         return Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token).getBody().getSubject();
 
     }
 
-    // JWT token valide edecek
+
     public boolean validateJwtToken(String token) {
         try {
             Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token).getBody();
             return true;
         } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException |
                  SignatureException | IllegalArgumentException e ) {
-            logger.error(ErrorMessage.JWTTOKEN_ERROR_MESSAGE);
+            logger.error(ErrorMessage.JWT_TOKEN_ERROR_MESSAGE);
         }
         return false ;
     }

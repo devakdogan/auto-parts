@@ -1,5 +1,5 @@
 package com.ape.security.service;
-import com.ape.dao.UserDao;
+import com.ape.business.abstracts.UserService;
 import com.ape.entity.User;
 import com.gpm.domains.User;
 import com.gpm.exception.ResourceNotFoundException;
@@ -16,12 +16,13 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService{
 
-    private final UserDao userDao;
+    private final UserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String  email) throws UsernameNotFoundException {
 
-        User user =  userDao.findByEmail(email);
+        User user =  userService.findByEmail(email).orElseThrow(()->
+                new ResourceNotFoundException(ErrorMessage.USER_NOT_FOUND_MESSAGE));
         return UserDetailsImpl.build(user);
     }
 }

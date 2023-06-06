@@ -1,6 +1,5 @@
 package com.ape.entity;
 
-import com.ape.entity.enums.RoleType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,13 +12,22 @@ import lombok.Setter;
 @NoArgsConstructor
 
 @Entity
-@Table(name = "t_role")
-public class Role {
+@Table(name = "t_image_data")
+public class ImageData {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private RoleType roleName;
+    @Lob
+    private byte[] data;
+
+    public ImageData(byte[] data){
+        this.data= data;
+    }
+
+    public ImageData(Long id) {
+        this.id=id;
+    }
 
 }
