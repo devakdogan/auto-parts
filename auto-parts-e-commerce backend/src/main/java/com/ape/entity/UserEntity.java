@@ -20,7 +20,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name = "t_user")
-public class User {
+public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -61,15 +61,15 @@ public class User {
     @JoinTable(name = "t_user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+    private Set<RoleEntity> roles = new HashSet<>();
 
-    @OneToMany(mappedBy = "user",orphanRemoval = true)
-    private Set<ConfirmationToken> confirmationTokens = new HashSet<>();
+    @OneToMany(mappedBy = "userEntity",orphanRemoval = true)
+    private Set<ConfirmationTokenEntity> confirmationTokenEntities = new HashSet<>();
 
     @OneToOne(cascade = CascadeType.ALL)
-    private ShoppingCart shoppingCart;
+    private ShoppingCartEntity shoppingCartEntity;
 
-    @OneToMany(mappedBy = "user",orphanRemoval = true)
-    private Set<Address> addresses = new HashSet<>();
+    @OneToMany(mappedBy = "userEntity",orphanRemoval = true)
+    private Set<AddressEntity> addresses = new HashSet<>();
 
 }

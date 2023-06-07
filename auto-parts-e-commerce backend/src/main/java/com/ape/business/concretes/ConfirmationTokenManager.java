@@ -2,7 +2,7 @@ package com.ape.business.concretes;
 
 import com.ape.business.abstracts.ConfirmationTokenService;
 import com.ape.dao.ConfirmationTokenDao;
-import com.ape.entity.ConfirmationToken;
+import com.ape.entity.ConfirmationTokenEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +14,12 @@ public class ConfirmationTokenManager implements ConfirmationTokenService {
 
     private final ConfirmationTokenDao confirmationTokenDao;
     @Override
-    public void saveConfirmationToken(ConfirmationToken token) {
+    public void saveConfirmationToken(ConfirmationTokenEntity token) {
         confirmationTokenDao.save(token);
     }
 
     @Override
-    public Optional<ConfirmationToken> getToken(String token) {
+    public Optional<ConfirmationTokenEntity> getToken(String token) {
         return confirmationTokenDao.findByToken(token);
     }
 

@@ -13,18 +13,30 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 
 @Entity
-@Table(name="t_shopping_cart_item")
-public class ShoppingCartItem {
+@Table(name="t_order_item")
+public class OrderItemEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(length = 100,nullable = false)
+    private String sku;
+
+    @Column(nullable=false)
     private Integer quantity;
 
+    @Column(nullable=false)
+    private Double unitPrice;
+
     @Column
-    private Double totalPrice;
+    private Double tax;
+
+    @Column
+    private Integer discount;
+
+    @Column
+    private Double subTotal;
 
     @Column
     private LocalDateTime createAt=LocalDateTime.now();
@@ -32,13 +44,7 @@ public class ShoppingCartItem {
     @Column
     private LocalDateTime updateAt;
 
-
     @ManyToOne
     @JoinColumn(name = "product_id")
-    private Product product;
-
-    @ManyToOne
-    @JoinColumn(name = "shopping_cart_id")
-    private ShoppingCart shoppingCart;
-
+    private ProductEntity productEntity;
 }

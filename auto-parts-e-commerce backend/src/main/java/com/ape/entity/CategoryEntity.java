@@ -1,6 +1,7 @@
 package com.ape.entity;
 
-import com.ape.entity.enums.BrandStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ape.entity.enums.CategoryStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,39 +11,36 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 
 @Entity
-@Table(name = "t_brand")
-public class Brand {
+@Table(name="t_category")
+public class CategoryEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(length = 70, nullable = false)
-    private String name;
-
+    @Column(length = 80, nullable = false)
+    private String title;
     @Enumerated(EnumType.STRING)
     @Column
-    private BrandStatus status;
-
-    @Column
-    private Boolean builtIn = false;
-
+    private CategoryStatus status;
     @Column(nullable = false)
-    private LocalDateTime createAt = LocalDateTime.now();
-
+    private  Boolean builtIn = false;
+    @Column
+    private LocalDateTime createAt=LocalDateTime.now();
     @Column
     private LocalDateTime updateAt;
 
-    @OneToMany(mappedBy = "brand", orphanRemoval = true)
-    private List<Product> product = new ArrayList<>();
+    @JsonIgnore
+    @OneToMany(mappedBy = "categoryEntity")
+    private List<ProductEntity> productEntity = new ArrayList<>();
 
-    @OneToOne(orphanRemoval = true)
-    private ImageFile image;
+
 
 }
+

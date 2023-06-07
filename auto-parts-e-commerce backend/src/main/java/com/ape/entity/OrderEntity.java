@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 @Getter
@@ -18,7 +17,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "t_order")
-public class Order {
+public class OrderEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -63,25 +62,25 @@ public class Order {
 
     @OneToMany(orphanRemoval = true,fetch = FetchType.EAGER)
     @JoinColumn(name = "order_id")
-    private List<OrderItem> orderItems = new ArrayList<>();
+    private List<OrderItemEntity> orderItemEntities = new ArrayList<>();
 
     @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "order_id")
-    private List<Transaction> transaction = new ArrayList<>();
+    private List<TransactionEntity> transactionEntity = new ArrayList<>();
 
     @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "order_id")
-    private List<Payment> payments = new ArrayList<>();
+    private List<PaymentEntity> paymentEntities = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private UserEntity userEntity;
 
     @ManyToOne
     @JoinColumn(name = "invoice_address_id")
-    private Address invoiceAddress;
+    private AddressEntity invoiceAddressEntity;
 
     @ManyToOne
     @JoinColumn(name = "shipping_address_id")
-    private Address shippingAddress;
+    private AddressEntity shippingAddressEntity;
 }

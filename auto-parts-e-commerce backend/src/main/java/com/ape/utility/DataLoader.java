@@ -1,7 +1,7 @@
 package com.ape.utility;
 
 import com.ape.dao.RoleDao;
-import com.ape.entity.Role;
+import com.ape.entity.RoleEntity;
 import com.ape.entity.enums.RoleType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -17,8 +17,8 @@ public class DataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
 
-        roleDao.save(new Role( 1L, RoleType.USER));
-        roleDao.save(new Role(2L,RoleType.ADMIN));
+        roleDao.save(new RoleEntity( 1L, RoleType.USER));
+        roleDao.save(new RoleEntity(2L,RoleType.ADMIN));
     }
 }
 

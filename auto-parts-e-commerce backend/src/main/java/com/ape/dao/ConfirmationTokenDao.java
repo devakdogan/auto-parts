@@ -1,6 +1,6 @@
 package com.ape.dao;
 
-import com.ape.entity.ConfirmationToken;
+import com.ape.entity.ConfirmationTokenEntity;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -12,11 +12,11 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Repository
-public interface ConfirmationTokenDao extends JpaRepository<ConfirmationToken,Long> {
-    Optional<ConfirmationToken> findByToken(String token);
+public interface ConfirmationTokenDao extends JpaRepository<ConfirmationTokenEntity,Long> {
+    Optional<ConfirmationTokenEntity> findByToken(String token);
     @Transactional
     @Modifying
-    @Query("UPDATE ConfirmationToken c " +
+    @Query("UPDATE ConfirmationTokenEntity c " +
             "SET c.confirmedAt = :confirmedAt " +
             "WHERE c.token = :token")
     void updateConfirmedAt(@Param("token")String token,
