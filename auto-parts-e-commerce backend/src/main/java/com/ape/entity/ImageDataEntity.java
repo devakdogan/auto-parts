@@ -13,7 +13,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "t_image_data")
-public class ImageData {
+public class ImageDataEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,11 +22,11 @@ public class ImageData {
     @Lob
     private byte[] data;
 
-    public ImageData(byte[] data){
+    public ImageDataEntity(byte[] data){
         this.data= data;
     }
 
-    public ImageData(Long id) {
+    public ImageDataEntity(Long id) {
         this.id=id;
     }
 

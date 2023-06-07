@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
 
 import java.util.UUID;
 
@@ -18,7 +17,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name="t_image_file")
-public class ImageFile {
+public class ImageFileEntity {
 
     @Id
     @GeneratedValue
@@ -29,7 +28,7 @@ public class ImageFile {
 
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private ImageData imageData;
+    private ImageDataEntity imageDataEntity;
 
 
 }

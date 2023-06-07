@@ -1,6 +1,6 @@
 package com.ape.security.service;
 
-import com.ape.entity.User;
+import com.ape.entity.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,13 +25,13 @@ public class UserDetailsImpl implements UserDetails{
 
 
     private Collection<? extends GrantedAuthority> authorities;
-    public static UserDetailsImpl build(User user) {
-        List<SimpleGrantedAuthority> authorities =   user.getRoles().
+    public static UserDetailsImpl build(UserEntity userEntity) {
+        List<SimpleGrantedAuthority> authorities =   userEntity.getRoles().
                 stream().
                 map(role->new SimpleGrantedAuthority(role.getRoleName().name())).
                 collect(Collectors.toList());
 
-        return new UserDetailsImpl(user.getEmail(), user.getPassword(), authorities);
+        return new UserDetailsImpl(userEntity.getEmail(), userEntity.getPassword(), authorities);
     }
 
 

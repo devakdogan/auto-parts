@@ -5,7 +5,7 @@ import com.ape.dao.ShoppingCartDao;
 import com.ape.dto.request.ShoppingCartRequest;
 import com.ape.dto.response.ShoppingCartDTO;
 import com.ape.dto.response.ShoppingCartItemDTO;
-import com.ape.entity.ShoppingCart;
+import com.ape.entity.ShoppingCartEntity;
 import com.ape.exception.ResourceNotFoundException;
 import com.ape.utility.ErrorMessage;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 public class ShoppingCartManager implements ShoppingCartService {
     private final ShoppingCartDao shoppingCartDao;
     @Override
-    public ShoppingCart findCartByUUID(String cartUUID) {
+    public ShoppingCartEntity findCartByUUID(String cartUUID) {
         return shoppingCartDao.findByCartUUID(cartUUID).orElseThrow(()->
                 new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,cartUUID)));
     }
@@ -47,7 +47,7 @@ public class ShoppingCartManager implements ShoppingCartService {
     }
 
     @Override
-    public void save(ShoppingCart shoppingCart) {
+    public void save(ShoppingCartEntity shoppingCartEntity) {
 
     }
 }

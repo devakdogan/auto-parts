@@ -1,7 +1,7 @@
 package com.ape.dao;
 
-import com.ape.entity.ShoppingCartItem;
+import com.ape.entity.ShoppingCartItemEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ShoppingCartItemDao extends JpaRepository<ShoppingCartItem,Long> {
+public interface ShoppingCartItemDao extends JpaRepository<ShoppingCartItemEntity,Long> {
 }

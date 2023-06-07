@@ -17,7 +17,7 @@ import java.util.List;
 
 @Entity
 @Table(name="t_user_address")
-public class Address {
+public class AddressEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -47,11 +47,11 @@ public class Address {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private UserEntity userEntity;
 
-    @OneToMany(mappedBy = "invoiceAddress")
-    private List<Order> ordersInvoice = new ArrayList<>();
+    @OneToMany(mappedBy = "invoiceAddressEntity")
+    private List<OrderEntity> ordersInvoice = new ArrayList<>();
 
-    @OneToMany(mappedBy = "shippingAddress")
-    private List<Order> ordersShipping = new ArrayList<>();
+    @OneToMany(mappedBy = "shippingAddressEntity")
+    private List<OrderEntity> ordersShipping = new ArrayList<>();
 }

@@ -1,46 +1,39 @@
 package com.ape.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.ape.entity.enums.CategoryStatus;
+import com.ape.entity.enums.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 
 @Entity
-@Table(name="t_category")
-public class Category {
+@Table(name = "t_payment")
+public class PaymentEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(length = 80, nullable = false)
-    private String title;
+
+    @Column
+    private double amount;
+
+    @Column
+    private String provider;
+
     @Enumerated(EnumType.STRING)
     @Column
-    private CategoryStatus status;
+    private PaymentStatus status;
+
     @Column(nullable = false)
-    private  Boolean builtIn = false;
-    @Column
     private LocalDateTime createAt=LocalDateTime.now();
+
     @Column
     private LocalDateTime updateAt;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "category")
-    private List<Product> product = new ArrayList<>();
-
-
-
 }
-

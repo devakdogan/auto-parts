@@ -10,9 +10,7 @@ import lombok.Setter;
 
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -22,7 +20,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "t_product")
-public class Product {
+public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -92,19 +90,19 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "brand_id")
-    private Brand brand;
+    private BrandEntity brandEntity;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
-    private Category category;
+    private CategoryEntity categoryEntity;
 
-    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
-    private Set<ShoppingCartItem> shoppingCartItem = new HashSet<>();
+    @OneToMany(mappedBy = "productEntity",cascade = CascadeType.ALL)
+    private Set<ShoppingCartItemEntity> shoppingCartItemEntity = new HashSet<>();
 
-    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
-    private Set<OrderItem> orderItems = new HashSet<>();
+    @OneToMany(mappedBy = "productEntity",cascade = CascadeType.ALL)
+    private Set<OrderItemEntity> orderItemEntities = new HashSet<>();
 
     @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "product_id")
-    private Set<ImageFile> image;
+    private Set<ImageFileEntity> image;
 }

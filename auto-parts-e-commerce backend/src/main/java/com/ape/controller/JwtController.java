@@ -27,6 +27,7 @@ public class JwtController {
     }
 
     @PutMapping(path = "/confirm")
+    @Operation(summary = "Confirm account with status pending")
     public ResponseEntity<DataResponse<UserDTO>> confirmAccount(@RequestParam String token){
         UserDTO userDTO = userManager.confirmAccount(token);
         DataResponse<UserDTO> response = new DataResponse<UserDTO>(userDTO,true,ResponseMessage.ACCOUNT_CONFIRMED_RESPONSE);

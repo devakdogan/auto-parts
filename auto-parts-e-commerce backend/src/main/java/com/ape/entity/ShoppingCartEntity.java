@@ -18,7 +18,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "t_shopping_cart")
-public class ShoppingCart {
+public class ShoppingCartEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +30,6 @@ public class ShoppingCart {
     @Column
     private LocalDateTime createAt = LocalDateTime.now();
 
-    @OneToMany(mappedBy = "shoppingCart",orphanRemoval = true)
-    private List<ShoppingCartItem> shoppingCartItem = new ArrayList<>();
+    @OneToMany(mappedBy = "shoppingCartEntity",orphanRemoval = true)
+    private List<ShoppingCartItemEntity> shoppingCartItemEntity = new ArrayList<>();
 }

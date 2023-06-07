@@ -1,10 +1,6 @@
 package com.ape.security.service;
-import com.ape.business.abstracts.UserService;
 import com.ape.business.concretes.UserManager;
-import com.ape.dao.UserDao;
-import com.ape.entity.User;
-import com.ape.exception.ResourceNotFoundException;
-import com.ape.utility.ErrorMessage;
+import com.ape.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,7 +15,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 
     @Override
     public UserDetails loadUserByUsername(String  email) throws UsernameNotFoundException {
-        User user =  userManager.getUserByEmail(email);
-        return UserDetailsImpl.build(user);
+        UserEntity userEntity =  userManager.getUserByEmail(email);
+        return UserDetailsImpl.build(userEntity);
     }
 }
