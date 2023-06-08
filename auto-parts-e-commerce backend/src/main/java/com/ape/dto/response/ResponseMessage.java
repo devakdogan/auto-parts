@@ -1,9 +1,10 @@
-package com.ape.utility;
+package com.ape.dto.response;
 
 public class ResponseMessage {
 
     public final static  String ACCOUNT_CONFIRMED_RESPONSE="Account successfully confirmed";
     public final static String REGISTER_RESPONSE_MESSAGE= "Registration successfully done";
+    public final static String LOGIN_SUCCESS = "Login Success!";
     public final static String PASSWORD_CHANGED_RESPONSE_MESSAGE= "Password successfully changed";
     public final static String USER_UPDATE_RESPONSE_MESSAGE= "User successfully updated";
     public final static String USER_DELETE_RESPONSE_MESSAGE= "User successfully deleted";

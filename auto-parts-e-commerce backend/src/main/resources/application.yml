@@ -24,9 +24,6 @@ spring:
           auth: true
           starttls:
             enable: true
-  jackson:
-    serialization:
-      FAIL_ON_EMPTY_BEANS: false
   jpa:
     hibernate:
       ddl-auto: update
@@ -66,7 +63,7 @@ management: #actuator
 
   autoparts:
     app:
-      jwtSecret: ${jwt_secret}
+      jwtSecret: daf66e01593f61a15b857cf433aae03a005812b31234e149036bcc8dee755dbb
       jwtExpirationMS: 86400000
       backendLink: https://localhost:8080/
       resetPasswordLink: http://localhost:3000/
@@ -76,6 +73,3 @@ info:
     name: 'Auto Parts E-Commerce'
     description: 'Auto Parts E-Commerce Backend Project'
     version: '@project.version@'
-
-
-

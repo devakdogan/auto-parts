@@ -1,21 +1,24 @@
-package com.ape.utility;
+package com.ape.dto.response;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 public class Response {
-    private boolean success;
     private String message;
+    private boolean success;
 
+
+    public Response(String message) {
+        this.message = message;
+    }
     public Response(boolean success) {
         this.success = success;
     }
 
-    public Response(boolean success,String message) {
-        this(success);
+    public Response(String message, boolean success) {
+        this.success = success;
         this.message = message;
     }
 }

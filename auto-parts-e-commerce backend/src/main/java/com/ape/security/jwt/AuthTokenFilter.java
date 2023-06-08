@@ -1,8 +1,8 @@
 package com.ape.security.jwt;
 
-import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,33 +11,27 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-
 public class AuthTokenFilter extends OncePerRequestFilter{
-
+    @Autowired
     private JwtUtils jwtUtils;
+
+    @Autowired
     private UserDetailsService userDetailsService;
-
-    public AuthTokenFilter(JwtUtils jwtUtils, UserDetailsService userDetailsService){
-        this.jwtUtils = jwtUtils;
-        this.userDetailsService = userDetailsService;
-    }
-
-    public AuthTokenFilter() {
-    }
 
     private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
 
     @Override
-    protected void doFilterInternal(@NonNull HttpServletRequest request,@NonNull HttpServletResponse response,@NonNull FilterChain filterChain)
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         String jwtToken = parseJwt(request);
+
         try {
             if(jwtToken!=null && jwtUtils.validateJwtToken(jwtToken)) {
                 String email = jwtUtils.getEmailFromToken(jwtToken);
@@ -45,7 +39,6 @@ public class AuthTokenFilter extends OncePerRequestFilter{
                 UsernamePasswordAuthenticationToken authenticationToken = new
                         UsernamePasswordAuthenticationToken(userDetails,null, userDetails.getAuthorities());
                  SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-
             }
         } catch (Exception e) {
             logger.error("User not Found{} :" , e.getMessage());

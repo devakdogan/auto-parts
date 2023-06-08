@@ -2,12 +2,9 @@ package com.ape.dao;
 
 import com.ape.entity.UserEntity;
 import com.ape.entity.enums.RoleType;
-import com.ape.entity.enums.UserStatus;
-import jakarta.transaction.Transactional;
 import lombok.NonNull;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -25,18 +22,12 @@ public interface UserDao extends JpaRepository<UserEntity,Long> {
     @NonNull
     List<UserEntity> findAll();
 
-    @EntityGraph(attributePaths = {"roles","favoriteList"})
+    @EntityGraph(attributePaths = {"roles"})
     @NonNull
     Optional<UserEntity> findById(Long id);
 
     @EntityGraph(attributePaths = {"id","shoppingCart"})
     Optional<UserEntity> findUserById(Long id);
-
-    @Transactional
-    @Modifying
-    @Query("UPDATE UserEntity u " +
-            "SET u.status = :status WHERE u.email = :email")
-    void enableUser(@Param("status") UserStatus status, @Param("email") String email);
 
     @Query("select u from UserEntity u inner join u.roles r where  r.roleName = :role")
     List<UserEntity> findByRole(@Param("role") RoleType roleType);

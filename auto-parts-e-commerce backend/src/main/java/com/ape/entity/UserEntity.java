@@ -1,14 +1,14 @@
 package com.ape.entity;
 
-import com.ape.entity.enums.UserStatus;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -18,6 +18,7 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+
 @Entity
 @Table(name = "t_user")
 public class UserEntity {
@@ -37,10 +38,6 @@ public class UserEntity {
     @Column
     private LocalDate birthDate;
 
-    @Enumerated(EnumType.STRING)
-    @Column
-    private UserStatus status;
-
     @Email
     @NotBlank
     private String email;
@@ -49,7 +46,7 @@ public class UserEntity {
     private String password;
 
     @Max(5)
-    private byte loginFailCount = 0;
+    private int loginFailCount = 0;
 
     @Column
     private LocalDateTime createAt = LocalDateTime.now();
@@ -57,19 +54,25 @@ public class UserEntity {
     @Column
     private LocalDateTime updateAt;
 
+    @Column(name = "locked")
+    private Boolean isLocked = false;
+
+    @Column(name = "active")
+    private Boolean isActive;
+
     @ManyToMany
     @JoinTable(name = "t_user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<RoleEntity> roles = new HashSet<>();
 
-    @OneToMany(mappedBy = "userEntity",orphanRemoval = true)
-    private Set<ConfirmationTokenEntity> confirmationTokenEntities = new HashSet<>();
+    @OneToMany(mappedBy = "user",orphanRemoval = true)
+    private Set<ConfirmationTokenEntity> confirmationToken = new HashSet<>();
 
     @OneToOne(cascade = CascadeType.ALL)
-    private ShoppingCartEntity shoppingCartEntity;
+    private ShoppingCartEntity shoppingCart;
 
-    @OneToMany(mappedBy = "userEntity",orphanRemoval = true)
+    @OneToMany(mappedBy = "user",orphanRemoval = true)
     private Set<AddressEntity> addresses = new HashSet<>();
 
 }

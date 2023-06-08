@@ -2,13 +2,12 @@ package com.ape.entity;
 
 
 import com.ape.entity.enums.ProductStatus;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -90,19 +89,19 @@ public class ProductEntity {
 
     @ManyToOne
     @JoinColumn(name = "brand_id")
-    private BrandEntity brandEntity;
+    private BrandEntity brand;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
-    private CategoryEntity categoryEntity;
+    private CategoryEntity category;
 
-    @OneToMany(mappedBy = "productEntity",cascade = CascadeType.ALL)
-    private Set<ShoppingCartItemEntity> shoppingCartItemEntity = new HashSet<>();
+    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
+    private Set<ShoppingCartItemEntity> shoppingCartItems = new HashSet<>();
 
-    @OneToMany(mappedBy = "productEntity",cascade = CascadeType.ALL)
-    private Set<OrderItemEntity> orderItemEntities = new HashSet<>();
+    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
+    private Set<OrderItemEntity> orderItems = new HashSet<>();
 
     @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "product_id")
-    private Set<ImageFileEntity> image;
+    private Set<ImageFileEntity> images;
 }
