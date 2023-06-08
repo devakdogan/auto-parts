@@ -10,6 +10,7 @@ import com.ape.dao.UserDao;
 import com.ape.dto.UserDTO;
 import com.ape.dto.request.LoginRequest;
 import com.ape.dto.request.RegisterRequest;
+import com.ape.dto.request.UserUpdateRequest;
 import com.ape.dto.response.LoginResponse;
 import com.ape.dto.response.ResponseMessage;
 import com.ape.entity.*;
@@ -18,10 +19,13 @@ import com.ape.exception.BadRequestException;
 import com.ape.exception.ConflictException;
 import com.ape.exception.ResourceNotFoundException;
 import com.ape.mapper.UserMapper;
+import com.ape.security.SecurityUtils;
 import com.ape.security.jwt.JwtUtils;
-import com.ape.utility.ErrorMessage;
+import com.ape.exception.ErrorMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -29,16 +33,19 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.*;
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class UserManager implements UserService {
 
+    private final EntityManager entityManager;
     private final UserDao userDao;
     private final AuthenticationManager authenticationManager;
     private final ConfirmationTokenService confirmationTokenService;
@@ -49,16 +56,75 @@ public class UserManager implements UserService {
     private final EmailManager emailManager;
     private final UserMapper userMapper;
     private final ShoppingCartDao shoppingCartDao;
-
+    private final ShoppingCartItemDao shoppingCartItemDao;
 
     @Value("${management.autoparts.app.backendLink}")
-    private String backendLink;
+    public String backendLink;
     @Value("${management.autoparts.app.resetPasswordLink}")
-    private String frontendLink;
-    private final ShoppingCartItemDao shoppingCartItemDao;
+    public String frontendLink;
+    @Value("${management.autoparts.app.maxFailedAttempts}")
+    public int maxFailedAttempts;
 
 
     @Override
+    public PageImpl<UserDTO> getAllUsersWithFilterAndPage(String query, RoleType role, Pageable pageable) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<UserEntity> criteriaQuery = cb.createQuery(UserEntity.class);
+        Root<UserEntity> root = criteriaQuery.from(UserEntity.class);
+        root.alias("generatedAlias0");
+        CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
+        Root<UserEntity> countRoot = countQuery.from(UserEntity.class);
+
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        if (query != null && !query.isEmpty()) {
+            String likeSearchText = "%" + query.toLowerCase(Locale.US) + "%";
+            Predicate searchByUserFirstName = cb.like(cb.lower(root.get("firstName")), likeSearchText);
+            Predicate searchByUserLastName = cb.like(cb.lower(root.get("lastName")), likeSearchText);
+            Predicate searchByUserEmail = cb.like(cb.lower(root.get("email")), likeSearchText);
+            predicates.add(cb.or(searchByUserFirstName,searchByUserLastName,searchByUserEmail));
+        }
+        if (role != null){
+            Join<UserEntity, RoleEntity> joinRoles = root.join("roles");
+            Join<UserEntity, RoleEntity> countRoles = countRoot.join("roles");
+            joinRoles.alias("generatedAlias1");
+            predicates.add(cb.equal(joinRoles.get("roleName"), role));
+        }
+
+        Predicate finalPredicate = cb.and(predicates.toArray(new Predicate[0]));
+
+        criteriaQuery.orderBy(pageable.getSort().stream()
+                .map(order -> {
+                    if (order.isAscending()) {
+                        return cb.asc(root.get(order.getProperty()));
+                    } else {
+                        return cb.desc(root.get(order.getProperty()));
+                    }
+                })
+                .collect(Collectors.toList()));
+
+        criteriaQuery.select(root);
+        criteriaQuery.where(finalPredicate);
+
+
+        countQuery.select(cb.count(countRoot));
+        countQuery.where(finalPredicate);
+        Long totalRecords = entityManager.createQuery(countQuery).getSingleResult();
+
+
+        TypedQuery<UserEntity> typedQuery = entityManager.createQuery(criteriaQuery);
+        typedQuery.setFirstResult((int)pageable.getOffset());
+        typedQuery.setMaxResults(pageable.getPageSize());
+
+
+        List<UserDTO> userDTOList = userMapper.entityListToDTOList(typedQuery.getResultList());
+
+        return new PageImpl<>(userDTOList, pageable, totalRecords);
+    }
+
+    @Override
+    @Transactional
     public void createUser(RegisterRequest registerRequest) {
         RoleEntity roleEntity = roleService.findByRoleName(RoleType.ROLE_USER);
         Set<RoleEntity> roleList = new HashSet<>();
@@ -96,7 +162,7 @@ public class UserManager implements UserService {
         String token = UUID.randomUUID().toString();
         ConfirmationTokenEntity confirmationTokenEntity = new ConfirmationTokenEntity(token, LocalDateTime.now(),LocalDateTime.now().plusDays(1), user);
         confirmationTokenService.saveConfirmationToken(confirmationTokenEntity);
-        String link = frontendLink+"confirm?token="+token;
+        String link = frontendLink +"confirm?token="+token;
         emailService.send(
                 registerRequest.getEmail(),
                 emailManager.buildRegisterEmail(registerRequest.getFirstName(),link));
@@ -109,6 +175,7 @@ public class UserManager implements UserService {
     }
 
     @Override
+    @Transactional
     public UserDTO confirmAccount(String token) {
         ConfirmationTokenEntity confirmationToken = confirmationTokenService.getToken(token).orElseThrow(() ->
                 new ResourceNotFoundException(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE));
@@ -138,6 +205,19 @@ public class UserManager implements UserService {
     }
 
     @Override
+    public UserDTO getPrincipal() {
+        UserEntity user=getCurrentUser();
+        return userMapper.entityToDTO(user);
+    }
+
+    @Override
+    public UserEntity getCurrentUser() {
+        String email = SecurityUtils.getCurrentUserLogin().orElseThrow(()->
+                new ResourceNotFoundException(ErrorMessage.PRINCIPAL_NOT_FOUND_MESSAGE));
+        return getUserByEmail(email);
+    }
+
+    @Override
     public LoginResponse loginUser(String cartUUID, LoginRequest loginRequest) {
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword());
@@ -145,13 +225,6 @@ public class UserManager implements UserService {
                 authenticate(usernamePasswordAuthenticationToken);
         UserDetails userDetails  =  (UserDetails) authentication.getPrincipal() ;
         UserEntity user = getUserByEmail(userDetails.getUsername());
-        boolean isAccountExists = userDao.existsByEmail(loginRequest.getEmail());
-        if (!authentication.isAuthenticated() && isAccountExists){
-            if (user.getLoginFailCount()<=5){
-                user.setLoginFailCount(user.getLoginFailCount()+1);
-            }
-        throw new BadRequestException(String.format(ErrorMessage.USER_NOT_FOUND_MESSAGE));
-        }
         ShoppingCartEntity anonymousCart = shoppingCartDao.findByCartUUID(cartUUID).orElseThrow(()->
                 new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,cartUUID)));
         ShoppingCartEntity userCart = user.getShoppingCart();
@@ -215,5 +288,39 @@ public class UserManager implements UserService {
     public List<UserDTO> getAllUsers() {
         List<UserEntity> users = userDao.findAll();
         return userMapper.entityListToDTOList(users);
+    }
+
+    @Override
+    @Transactional
+    public UserDTO updateUser(UserUpdateRequest userUpdateRequest) {
+        UserEntity user = getCurrentUser();
+        boolean emailExist = userDao.existsByEmail(userUpdateRequest.getEmail());
+        if (emailExist && !userUpdateRequest.getEmail().equals(user.getEmail())) {
+            throw new ConflictException(String.format(ErrorMessage.EMAIL_ALREADY_EXIST_MESSAGE, userUpdateRequest.getEmail()));
+        }
+        user.setEmail(userUpdateRequest.getEmail());
+        user.setFirstName(userUpdateRequest.getFirstName());
+        user.setLastName(userUpdateRequest.getLastName());
+        user.setPhone(userUpdateRequest.getPhone());
+        user.setBirthDate(userUpdateRequest.getBirthDate());
+        user.setUpdateAt(LocalDateTime.now());
+        userDao.save(user);
+        return userMapper.entityToDTO(user);
+    }
+
+    @Override
+    public void resetFailedAttempts(UserEntity user) {
+        user.setLoginFailCount(0);
+    }
+
+    @Override
+    public void increaseFailedAttempts(UserEntity user) {
+        int newFailAttempts = user.getLoginFailCount() + 1;
+        user.setLoginFailCount(newFailAttempts);
+    }
+
+    @Override
+    public void lock(UserEntity user) {
+        user.setIsLocked(true);
     }
 }

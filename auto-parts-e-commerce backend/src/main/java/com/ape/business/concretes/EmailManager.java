@@ -1,7 +1,7 @@
 package com.ape.business.concretes;
 
 import com.ape.business.abstracts.EmailService;
-import com.ape.utility.ErrorMessage;
+import com.ape.exception.ErrorMessage;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

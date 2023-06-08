@@ -33,7 +33,7 @@ public class JwtController {
     @Operation(summary = "Confirm account with status pending")
     public ResponseEntity<DataResponse<UserDTO>> confirmAccount(@RequestParam String token){
         UserDTO userDTO = userManager.confirmAccount(token);
-        DataResponse<UserDTO> response = new DataResponse<UserDTO>(ResponseMessage.ACCOUNT_CONFIRMED_RESPONSE,true,userDTO);
+        DataResponse<UserDTO> response = new DataResponse<>(ResponseMessage.ACCOUNT_CONFIRMED_RESPONSE,true,userDTO);
         return ResponseEntity.ok(response);
     }
 
@@ -42,6 +42,5 @@ public class JwtController {
     public ResponseEntity<LoginResponse> authenticate(@RequestHeader(value = "cartUUID",required = false)String cartUUID, @Valid @RequestBody LoginRequest loginRequest)  {
         LoginResponse response = userManager.loginUser(cartUUID,loginRequest);
         return new ResponseEntity<>(response,HttpStatus.OK);
-
     }
 }

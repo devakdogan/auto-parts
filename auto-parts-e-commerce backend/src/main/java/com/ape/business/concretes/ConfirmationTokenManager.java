@@ -6,6 +6,7 @@ import com.ape.entity.ConfirmationTokenEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.Optional;
 @Service
@@ -14,6 +15,7 @@ public class ConfirmationTokenManager implements ConfirmationTokenService {
 
     private final ConfirmationTokenDao confirmationTokenDao;
     @Override
+    @Transactional
     public void saveConfirmationToken(ConfirmationTokenEntity token) {
         confirmationTokenDao.save(token);
     }
