@@ -5,7 +5,7 @@ import com.ape.dao.RoleDao;
 import com.ape.entity.RoleEntity;
 import com.ape.entity.enums.RoleType;
 import com.ape.exception.ResourceNotFoundException;
-import com.ape.utility.ErrorMessage;
+import com.ape.exception.ErrorMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -60,15 +60,11 @@ public class ProductEntity {
     @Column(length = 100, nullable = false)
     private String slug;
 
-    @Column(nullable = false)
-    private Boolean featured;
-
-    @Column
-    private Boolean newProduct;
 
     @Enumerated(EnumType.STRING)
     @Column
     private ProductStatus status;
+
     @Column
     private Double width;
 
@@ -77,9 +73,6 @@ public class ProductEntity {
 
     @Column
     private Double height;
-
-    @Column
-    private Boolean builtIn = false;
 
     @Column
     private LocalDateTime createAt = LocalDateTime.now();

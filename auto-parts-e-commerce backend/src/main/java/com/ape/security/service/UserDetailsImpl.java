@@ -1,54 +1,42 @@
 package com.ape.security.service;
 
+import com.ape.entity.RoleEntity;
 import com.ape.entity.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Getter
 @Setter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserDetailsImpl implements UserDetails{
 
-    private static final long serialVersionUID = 1L;
-
-    private String email ;
-
-    private String password;
-
-    private Collection<? extends GrantedAuthority> authorities;
-    public static UserDetailsImpl build(UserEntity user) {
-        List<SimpleGrantedAuthority> authorities =   user.getRoles().
-                stream().
-                map(role->new SimpleGrantedAuthority(role.getRoleName().name())).
-                collect(Collectors.toList());
-
-        return new UserDetailsImpl(user.getEmail(), user.getPassword(), authorities);
-    }
-
-
+    private final UserEntity user;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        for (RoleEntity role:user.getRoles()) {
+            authorities.add(new SimpleGrantedAuthority(role.getRoleName().toString()));
+        }
         return authorities;
     }
 
     @Override
     public String getPassword() {
-        return this.password;
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return this.email;
+        return user.getEmail();
     }
 
     @Override
@@ -58,7 +46,7 @@ public class UserDetailsImpl implements UserDetails{
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return !user.getIsLocked();
     }
 
     @Override
@@ -68,6 +56,6 @@ public class UserDetailsImpl implements UserDetails{
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return user.getIsActive();
     }
 }

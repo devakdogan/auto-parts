@@ -31,9 +31,6 @@ public class BrandEntity {
     @Column
     private BrandStatus status;
 
-    @Column
-    private Boolean builtIn = false;
-
     @Column(nullable = false)
     private LocalDateTime createAt = LocalDateTime.now();
 

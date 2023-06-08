@@ -1,4 +1,6 @@
 package com.ape.security;
+import com.ape.exception.CustomLoginFailureHandler;
+import com.ape.exception.CustomLoginSuccessHandler;
 import com.ape.security.jwt.AuthTokenFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -30,7 +34,7 @@ public class SecurityConfig {
 
 
     @Bean
-    public SecurityFilterChain filterChain( HttpSecurity http ) throws Exception{
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.csrf().disable().
                 sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).
                 and().authorizeRequests().antMatchers("/v3/api-docs/**",
@@ -38,7 +42,7 @@ public class SecurityConfig {
                         "/swagger-ui/**",
                         "/",
                         "index.html",
-                        "/images/**",
+                        "/image/**",
                         "/css/**",
                         "/js/**").permitAll().and().
                 authorizeRequests().antMatchers(HttpMethod.OPTIONS,"/**").permitAll().and().
@@ -61,6 +65,16 @@ public class SecurityConfig {
         http.addFilterBefore(authTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
 
+    }
+
+    @Bean
+    public AuthenticationFailureHandler authenticationFailureHandler(){
+        return new CustomLoginFailureHandler();
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler authenticationSuccessHandler(){
+        return new CustomLoginSuccessHandler();
     }
 
     @Bean
@@ -92,17 +106,15 @@ public class SecurityConfig {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService);
         authenticationProvider.setPasswordEncoder(passwordEncoder());
-
         return authenticationProvider;
-
     }
 
-    @Bean
-    public AuthenticationManager authManager( HttpSecurity http) throws Exception {
 
+
+    @Bean
+    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class).
                 authenticationProvider(authProvider() ).
                 build();
-
     }
 }

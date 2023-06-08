@@ -37,7 +37,7 @@ public interface ShoppingCartItemMapper {
     }
 
     @Named("getProductImageId")
-    public static UUID getProductImageId(ProductEntity product){
+    public static String getProductImageId(ProductEntity product){
         return product.getImages().stream().filter(ImageFileEntity::isShowcase).map(ImageFileEntity::getId).findFirst().orElse(null);
     }
 
