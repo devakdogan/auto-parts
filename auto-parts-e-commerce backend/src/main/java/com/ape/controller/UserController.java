@@ -42,6 +42,7 @@ public class UserController {
 
     @GetMapping("/auth")
     @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+    @Operation(summary = "Get currently logged user")
     public ResponseEntity<UserDTO> getUser() {
         UserDTO userDTO = userManager.getPrincipal();
         return ResponseEntity.ok(userDTO);
@@ -49,6 +50,7 @@ public class UserController {
 
     @GetMapping("/auth/all")
     @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Get all users")
     public ResponseEntity<List<UserDTO>> getAllUsers(){
         List<UserDTO> allUsers = userManager.getAllUsers();
         return ResponseEntity.ok(allUsers);
@@ -56,8 +58,8 @@ public class UserController {
     }
 
     @GetMapping("/{id}/admin")
-    @Operation(summary = "Getting user with ID")
     @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Getting user with ID")
     public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
         UserDTO userDTO = userManager.getUserById(id);
         return ResponseEntity.ok(userDTO);
