@@ -2,6 +2,6 @@ package com.ape.entity.enums;
 
 public enum RoleType {
 
-    USER,
-    ADMIN
+    ROLE_USER,
+    ROLE_ADMIN
 }

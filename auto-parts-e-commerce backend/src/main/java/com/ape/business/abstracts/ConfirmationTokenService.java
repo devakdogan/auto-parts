@@ -1,6 +1,7 @@
 package com.ape.business.abstracts;
 
 import com.ape.entity.ConfirmationTokenEntity;
+
 import java.util.Optional;
 
 public interface ConfirmationTokenService {

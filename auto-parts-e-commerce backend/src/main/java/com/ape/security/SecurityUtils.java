@@ -13,12 +13,12 @@ public class SecurityUtils {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         Authentication authentication =  securityContext.getAuthentication();
         return Optional.ofNullable(extractPrincipal(authentication));
-
     }
     private static String extractPrincipal(Authentication authentication) {
         if(authentication == null) {
             return null;
-        }else if(authentication.getPrincipal() instanceof UserDetails secureUser) {
+        }else if(authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails secureUser	= (UserDetails) authentication.getPrincipal();
             return secureUser.getUsername();
         }else if(authentication.getPrincipal() instanceof String) {
             return (String) authentication.getPrincipal();

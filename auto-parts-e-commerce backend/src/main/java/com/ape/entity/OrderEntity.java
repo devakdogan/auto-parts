@@ -1,11 +1,12 @@
 package com.ape.entity;
 
 import com.ape.entity.enums.OrderStatus;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,15 +63,15 @@ public class OrderEntity {
 
     @OneToMany(orphanRemoval = true,fetch = FetchType.EAGER)
     @JoinColumn(name = "order_id")
-    private List<OrderItemEntity> orderItemEntities = new ArrayList<>();
+    private List<OrderItemEntity> orderItems = new ArrayList<>();
 
     @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "order_id")
-    private List<TransactionEntity> transactionEntity = new ArrayList<>();
+    private List<TransactionEntity> transactions = new ArrayList<>();
 
     @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "order_id")
-    private List<PaymentEntity> paymentEntities = new ArrayList<>();
+    private List<PaymentEntity> payments = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "user_id")

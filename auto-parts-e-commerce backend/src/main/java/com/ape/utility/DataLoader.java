@@ -17,8 +17,8 @@ public class DataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
 
-        roleDao.save(new RoleEntity( 1L, RoleType.USER));
-        roleDao.save(new RoleEntity(2L,RoleType.ADMIN));
+        roleDao.save(new RoleEntity( 1L, RoleType.ROLE_USER));
+        roleDao.save(new RoleEntity(2L,RoleType.ROLE_ADMIN));
     }
 }
 

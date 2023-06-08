@@ -1,12 +1,11 @@
 package com.ape.mapper;
 
-import com.ape.dto.response.UserDTO;
+import com.ape.dto.UserDTO;
 import com.ape.entity.RoleEntity;
 import com.ape.entity.UserEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;

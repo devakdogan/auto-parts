@@ -19,19 +19,18 @@ public class UserDetailsImpl implements UserDetails{
 
     private static final long serialVersionUID = 1L;
 
-    private String email;
+    private String email ;
 
     private String password;
 
-
     private Collection<? extends GrantedAuthority> authorities;
-    public static UserDetailsImpl build(UserEntity userEntity) {
-        List<SimpleGrantedAuthority> authorities =   userEntity.getRoles().
+    public static UserDetailsImpl build(UserEntity user) {
+        List<SimpleGrantedAuthority> authorities =   user.getRoles().
                 stream().
                 map(role->new SimpleGrantedAuthority(role.getRoleName().name())).
                 collect(Collectors.toList());
 
-        return new UserDetailsImpl(userEntity.getEmail(), userEntity.getPassword(), authorities);
+        return new UserDetailsImpl(user.getEmail(), user.getPassword(), authorities);
     }
 
 

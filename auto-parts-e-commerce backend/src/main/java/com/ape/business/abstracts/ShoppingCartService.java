@@ -1,8 +1,8 @@
 package com.ape.business.abstracts;
 
+import com.ape.dto.ShoppingCartDTO;
+import com.ape.dto.ShoppingCartItemDTO;
 import com.ape.dto.request.ShoppingCartRequest;
-import com.ape.dto.response.ShoppingCartDTO;
-import com.ape.dto.response.ShoppingCartItemDTO;
 import com.ape.entity.ShoppingCartEntity;
 
 public interface ShoppingCartService {

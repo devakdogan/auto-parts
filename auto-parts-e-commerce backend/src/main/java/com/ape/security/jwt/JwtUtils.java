@@ -1,10 +1,7 @@
 package com.ape.security.jwt;
 
 import com.ape.utility.ErrorMessage;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
@@ -35,6 +32,7 @@ public class JwtUtils {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
     }
 
+
     public String generateJwtToken(UserDetails userDetails) {
         return Jwts.builder().setSubject(userDetails.getUsername()).
                 claim("role",userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList())).
@@ -43,6 +41,7 @@ public class JwtUtils {
                 signWith(getSigningKey()).
                 compact();
     }
+
 
     public String getEmailFromToken(String token) {
         return Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token).getBody().getSubject();
@@ -54,9 +53,14 @@ public class JwtUtils {
         try {
             Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token).getBody();
             return true;
-        } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException |
-                 SignatureException | IllegalArgumentException e ) {
-            logger.error(ErrorMessage.JWT_TOKEN_ERROR_MESSAGE);
+        } catch (MalformedJwtException e) {
+            logger.error("Invalid JWT token: {}", e.getMessage());
+        } catch (ExpiredJwtException e) {
+            logger.error("JWT token is expired: {}", e.getMessage());
+        } catch (UnsupportedJwtException e) {
+            logger.error("JWT token is unsupported: {}", e.getMessage());
+        } catch (IllegalArgumentException e) {
+            logger.error("JWT claims string is empty: {}", e.getMessage());
         }
         return false ;
     }

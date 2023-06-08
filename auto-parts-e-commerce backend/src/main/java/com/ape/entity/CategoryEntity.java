@@ -1,12 +1,13 @@
 package com.ape.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ape.entity.enums.CategoryStatus;
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,8 +38,8 @@ public class CategoryEntity {
     private LocalDateTime updateAt;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "categoryEntity")
-    private List<ProductEntity> productEntity = new ArrayList<>();
+    @OneToMany(mappedBy = "category")
+    private List<ProductEntity> product = new ArrayList<>();
 
 
 

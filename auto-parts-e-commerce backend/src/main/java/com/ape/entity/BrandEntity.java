@@ -1,11 +1,12 @@
 package com.ape.entity;
 
 import com.ape.entity.enums.BrandStatus;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,7 @@ public class BrandEntity {
     @Column
     private LocalDateTime updateAt;
 
-    @OneToMany(mappedBy = "brandEntity", orphanRemoval = true)
+    @OneToMany(mappedBy = "brand", orphanRemoval = true)
     private List<ProductEntity> productEntity = new ArrayList<>();
 
     @OneToOne(orphanRemoval = true)
