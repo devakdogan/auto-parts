@@ -8,10 +8,11 @@ import com.ape.dto.request.ShoppingCartRequest;
 import com.ape.entity.ShoppingCartEntity;
 import com.ape.exception.ResourceNotFoundException;
 import com.ape.mapper.ShoppingCartMapper;
-import com.ape.utility.ErrorMessage;
+import com.ape.exception.ErrorMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.UUID;
 
 @Service
@@ -26,21 +27,25 @@ public class ShoppingCartManager implements ShoppingCartService {
     }
 
     @Override
+    @Transactional
     public ShoppingCartItemDTO createCartItem(String cartUUID, ShoppingCartRequest shoppingCartRequest) {
         return null;
     }
 
     @Override
+    @Transactional
     public ShoppingCartItemDTO removeCartItem(String cartUUID, Long productId) {
         return null;
     }
 
     @Override
+    @Transactional
     public void cleanShoppingCart(String cartUUID) {
 
     }
 
     @Override
+    @Transactional
     public ShoppingCartItemDTO changeItemQuantity(String cartUUID, Long productId) {
         return null;
     }
@@ -60,6 +65,7 @@ public class ShoppingCartManager implements ShoppingCartService {
     }
 
     @Override
+    @Transactional
     public void save(ShoppingCartEntity shoppingCartEntity) {
 
     }

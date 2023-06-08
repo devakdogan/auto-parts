@@ -30,8 +30,6 @@ public class CategoryEntity {
     @Enumerated(EnumType.STRING)
     @Column
     private CategoryStatus status;
-    @Column(nullable = false)
-    private  Boolean builtIn = false;
     @Column
     private LocalDateTime createAt=LocalDateTime.now();
     @Column

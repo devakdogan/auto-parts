@@ -75,4 +75,7 @@ public class UserEntity {
     @OneToMany(mappedBy = "user",orphanRemoval = true)
     private Set<AddressEntity> addresses = new HashSet<>();
 
+    @OneToMany(mappedBy = "user",orphanRemoval = true)
+    private Set<CreditCardEntity> creditCards = new HashSet<>();
+
 }
