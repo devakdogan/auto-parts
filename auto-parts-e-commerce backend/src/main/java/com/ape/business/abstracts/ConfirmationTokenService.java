@@ -1,6 +1,6 @@
 package com.ape.business.abstracts;
 
-import com.ape.entity.ConfirmationTokenEntity;
+import com.ape.entity.concrete.ConfirmationTokenEntity;
 
 import java.util.Optional;
 

@@ -1,12 +1,12 @@
 package com.ape.controller;
 
 import com.ape.business.concretes.CategoryManager;
-import com.ape.dto.CategoryDTO;
-import com.ape.dto.request.CategoryRequest;
-import com.ape.dto.request.CategoryUpdateRequest;
-import com.ape.dto.response.DataResponse;
-import com.ape.dto.response.Response;
-import com.ape.dto.response.ResponseMessage;
+import com.ape.entity.dto.CategoryDTO;
+import com.ape.entity.dto.request.CategoryRequest;
+import com.ape.entity.dto.request.CategoryUpdateRequest;
+import com.ape.entity.dto.response.DataResponse;
+import com.ape.entity.dto.response.Response;
+import com.ape.entity.dto.response.ResponseMessage;
 import com.ape.entity.enums.CategoryStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;

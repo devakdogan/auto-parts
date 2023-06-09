@@ -1,15 +1,14 @@
 package com.ape.mapper;
 
-import com.ape.dto.ShoppingCartItemDTO;
-import com.ape.entity.ImageFileEntity;
-import com.ape.entity.ProductEntity;
-import com.ape.entity.ShoppingCartItemEntity;
+import com.ape.entity.dto.ShoppingCartItemDTO;
+import com.ape.entity.concrete.ImageFileEntity;
+import com.ape.entity.concrete.ProductEntity;
+import com.ape.entity.concrete.ShoppingCartItemEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
 import java.util.List;
-import java.util.UUID;
 
 @Mapper(componentModel = "spring")
 public interface ShoppingCartItemMapper {

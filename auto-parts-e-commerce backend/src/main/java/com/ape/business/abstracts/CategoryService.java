@@ -1,9 +1,9 @@
 package com.ape.business.abstracts;
 
-import com.ape.dto.CategoryDTO;
-import com.ape.dto.request.CategoryRequest;
-import com.ape.dto.request.CategoryUpdateRequest;
-import com.ape.entity.CategoryEntity;
+import com.ape.entity.dto.CategoryDTO;
+import com.ape.entity.dto.request.CategoryRequest;
+import com.ape.entity.dto.request.CategoryUpdateRequest;
+import com.ape.entity.concrete.CategoryEntity;
 import com.ape.entity.enums.CategoryStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

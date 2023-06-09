@@ -1,11 +1,11 @@
 package com.ape.controller;
 
 import com.ape.business.concretes.UserManager;
-import com.ape.dto.UserDTO;
-import com.ape.dto.request.UserUpdateRequest;
-import com.ape.dto.response.DataResponse;
-import com.ape.dto.response.Response;
-import com.ape.dto.response.ResponseMessage;
+import com.ape.entity.dto.UserDTO;
+import com.ape.entity.dto.request.UserUpdateRequest;
+import com.ape.entity.dto.response.DataResponse;
+import com.ape.entity.dto.response.Response;
+import com.ape.entity.dto.response.ResponseMessage;
 import com.ape.entity.enums.RoleType;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;

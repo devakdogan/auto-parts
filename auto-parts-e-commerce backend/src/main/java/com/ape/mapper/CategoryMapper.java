@@ -1,8 +1,8 @@
 package com.ape.mapper;
 
-import com.ape.dto.CategoryDTO;
-import com.ape.dto.ProductCategoryDTO;
-import com.ape.entity.CategoryEntity;
+import com.ape.entity.dto.CategoryDTO;
+import com.ape.entity.dto.ProductCategoryDTO;
+import com.ape.entity.concrete.CategoryEntity;
 import org.mapstruct.Mapper;
 
 import java.util.List;

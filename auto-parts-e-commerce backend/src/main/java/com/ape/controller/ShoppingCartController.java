@@ -1,7 +1,7 @@
 package com.ape.controller;
 
 import com.ape.business.concretes.ShoppingCartManager;
-import com.ape.dto.ShoppingCartDTO;
+import com.ape.entity.dto.ShoppingCartDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

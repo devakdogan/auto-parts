@@ -1,12 +1,12 @@
 package com.ape.business.concretes;
 
 import com.ape.business.abstracts.ProductService;
-import com.ape.dao.BrandDao;
-import com.ape.dao.ProductDao;
-import com.ape.dto.ProductDTO;
-import com.ape.dto.request.ProductRequest;
-import com.ape.dto.request.ProductUpdateRequest;
-import com.ape.entity.*;
+import com.ape.entity.dao.BrandDao;
+import com.ape.entity.dao.ProductDao;
+import com.ape.entity.dto.ProductDTO;
+import com.ape.entity.dto.request.ProductRequest;
+import com.ape.entity.dto.request.ProductUpdateRequest;
+import com.ape.entity.concrete.*;
 import com.ape.entity.enums.BrandStatus;
 import com.ape.entity.enums.CategoryStatus;
 import com.ape.entity.enums.ProductStatus;

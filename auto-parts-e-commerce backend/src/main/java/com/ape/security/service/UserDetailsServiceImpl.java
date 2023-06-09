@@ -1,6 +1,6 @@
 package com.ape.security.service;
-import com.ape.dao.UserDao;
-import com.ape.entity.UserEntity;
+import com.ape.entity.dao.UserDao;
+import com.ape.entity.concrete.UserEntity;
 import com.ape.exception.ResourceNotFoundException;
 import com.ape.exception.ErrorMessage;
 import lombok.RequiredArgsConstructor;

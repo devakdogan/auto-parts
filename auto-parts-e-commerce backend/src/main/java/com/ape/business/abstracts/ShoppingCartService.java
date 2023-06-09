@@ -1,9 +1,9 @@
 package com.ape.business.abstracts;
 
-import com.ape.dto.ShoppingCartDTO;
-import com.ape.dto.ShoppingCartItemDTO;
-import com.ape.dto.request.ShoppingCartRequest;
-import com.ape.entity.ShoppingCartEntity;
+import com.ape.entity.dto.ShoppingCartDTO;
+import com.ape.entity.dto.ShoppingCartItemDTO;
+import com.ape.entity.dto.request.ShoppingCartRequest;
+import com.ape.entity.concrete.ShoppingCartEntity;
 
 public interface ShoppingCartService {
     ShoppingCartEntity findCartByUUID(String cartUUID);

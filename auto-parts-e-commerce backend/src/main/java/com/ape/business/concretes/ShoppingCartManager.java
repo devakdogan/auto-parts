@@ -1,11 +1,11 @@
 package com.ape.business.concretes;
 
 import com.ape.business.abstracts.ShoppingCartService;
-import com.ape.dao.ShoppingCartDao;
-import com.ape.dto.ShoppingCartDTO;
-import com.ape.dto.ShoppingCartItemDTO;
-import com.ape.dto.request.ShoppingCartRequest;
-import com.ape.entity.ShoppingCartEntity;
+import com.ape.entity.dao.ShoppingCartDao;
+import com.ape.entity.dto.ShoppingCartDTO;
+import com.ape.entity.dto.ShoppingCartItemDTO;
+import com.ape.entity.dto.request.ShoppingCartRequest;
+import com.ape.entity.concrete.ShoppingCartEntity;
 import com.ape.exception.ResourceNotFoundException;
 import com.ape.mapper.ShoppingCartMapper;
 import com.ape.exception.ErrorMessage;

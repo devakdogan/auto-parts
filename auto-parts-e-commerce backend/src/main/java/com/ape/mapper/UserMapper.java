@@ -1,8 +1,8 @@
 package com.ape.mapper;
 
-import com.ape.dto.UserDTO;
-import com.ape.entity.RoleEntity;
-import com.ape.entity.UserEntity;
+import com.ape.entity.dto.UserDTO;
+import com.ape.entity.concrete.RoleEntity;
+import com.ape.entity.concrete.UserEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

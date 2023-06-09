@@ -1,13 +1,12 @@
 package com.ape.controller;
 
 import com.ape.business.concretes.ImageManager;
-import com.ape.dto.ImageFileDTO;
-import com.ape.dto.response.ImageResponse;
-import com.ape.dto.response.Response;
-import com.ape.dto.response.ResponseMessage;
-import com.ape.entity.ImageFileEntity;
+import com.ape.entity.dto.ImageFileDTO;
+import com.ape.entity.dto.response.ImageResponse;
+import com.ape.entity.dto.response.Response;
+import com.ape.entity.dto.response.ResponseMessage;
+import com.ape.entity.concrete.ImageFileEntity;
 import io.swagger.v3.oas.annotations.Operation;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

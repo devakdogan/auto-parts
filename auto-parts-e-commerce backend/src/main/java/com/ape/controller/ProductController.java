@@ -1,12 +1,12 @@
 package com.ape.controller;
 
 import com.ape.business.concretes.ProductManager;
-import com.ape.dto.ProductDTO;
-import com.ape.dto.request.ProductRequest;
-import com.ape.dto.request.ProductUpdateRequest;
-import com.ape.dto.response.DataResponse;
-import com.ape.dto.response.Response;
-import com.ape.dto.response.ResponseMessage;
+import com.ape.entity.dto.ProductDTO;
+import com.ape.entity.dto.request.ProductRequest;
+import com.ape.entity.dto.request.ProductUpdateRequest;
+import com.ape.entity.dto.response.DataResponse;
+import com.ape.entity.dto.response.Response;
+import com.ape.entity.dto.response.ResponseMessage;
 import com.ape.entity.enums.ProductStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;

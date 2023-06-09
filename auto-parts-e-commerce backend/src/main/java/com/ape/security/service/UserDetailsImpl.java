@@ -1,8 +1,7 @@
 package com.ape.security.service;
 
-import com.ape.entity.RoleEntity;
-import com.ape.entity.UserEntity;
-import lombok.AllArgsConstructor;
+import com.ape.entity.concrete.RoleEntity;
+import com.ape.entity.concrete.UserEntity;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -11,7 +10,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter

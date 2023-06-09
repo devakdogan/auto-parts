@@ -1,12 +1,12 @@
 package com.ape.controller;
 
 import com.ape.business.concretes.BrandManager;
-import com.ape.dto.BrandDTO;
-import com.ape.dto.request.BrandRequest;
-import com.ape.dto.request.BrandUpdateRequest;
-import com.ape.dto.response.DataResponse;
-import com.ape.dto.response.Response;
-import com.ape.dto.response.ResponseMessage;
+import com.ape.entity.dto.BrandDTO;
+import com.ape.entity.dto.request.BrandRequest;
+import com.ape.entity.dto.request.BrandUpdateRequest;
+import com.ape.entity.dto.response.DataResponse;
+import com.ape.entity.dto.response.Response;
+import com.ape.entity.dto.response.ResponseMessage;
 import com.ape.entity.enums.BrandStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
