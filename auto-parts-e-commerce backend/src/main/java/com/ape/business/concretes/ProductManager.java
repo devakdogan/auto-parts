@@ -1,18 +1,21 @@
 package com.ape.business.concretes;
 
 import com.ape.business.abstracts.ProductService;
+import com.ape.dao.BrandDao;
+import com.ape.dao.ProductDao;
 import com.ape.dto.ProductDTO;
 import com.ape.dto.request.ProductRequest;
 import com.ape.dto.request.ProductUpdateRequest;
-import com.ape.entity.ProductEntity;
-import com.ape.entity.RoleEntity;
+import com.ape.entity.*;
 import com.ape.entity.enums.BrandStatus;
 import com.ape.entity.enums.CategoryStatus;
 import com.ape.entity.enums.ProductStatus;
 import com.ape.entity.enums.RoleType;
+import com.ape.exception.ConflictException;
 import com.ape.exception.ResourceNotFoundException;
 import com.ape.mapper.ProductMapper;
 import com.ape.exception.ErrorMessage;
+import com.ape.utility.UniqueIdGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -25,9 +28,10 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,9 +44,12 @@ public class ProductManager implements ProductService {
     private final ProductMapper productMapper;
     private final UserManager userManager;
     private final RoleManager roleManager;
+    private final ProductDao productDao;
+    private final UniqueIdGenerator uniqueIdGenerator;
+    private final BrandDao brandDao;
 
     @Override
-    public PageImpl<ProductDTO> findAllWithQueryAndPage(String query, List<Long> categoryId, List<Long> brandId, Integer minPrice, Integer maxPrice, ProductStatus status, Pageable pageable) {
+    public PageImpl<ProductDTO> getAllWithQueryAndPage(String query, List<Long> categoryId, List<Long> brandId, Integer minPrice, Integer maxPrice, ProductStatus status, Pageable pageable) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<ProductEntity> criteriaQuery = cb.createQuery(ProductEntity.class);
         Root<ProductEntity> root = criteriaQuery.from(ProductEntity.class);
@@ -125,20 +132,117 @@ public class ProductManager implements ProductService {
     }
 
     @Override
-    public ProductDTO getProductDTOById(Long id) {
-        return null;
+    public ProductDTO getProductById(Long id) {
+        ProductEntity product = null;
+        try {
+            RoleEntity role = roleManager.findByRoleName(RoleType.ROLE_ADMIN);
+            boolean isAdmin = userManager.getCurrentUser().getRoles().stream().anyMatch(r->r.equals(role));
+            if (isAdmin){
+                product = findProductById(id);
+            }else throw new ResourceNotFoundException(String.format(ErrorMessage.PRODUCT_NOT_FOUND_MESSAGE,id));
+        } catch (ResourceNotFoundException e) {
+            product = findProductById(id);
+            if (product.getStatus().equals(ProductStatus.NOT_PUBLISHED)){
+                throw new ResourceNotFoundException(String.format(ErrorMessage.PRODUCT_NOT_FOUND_MESSAGE,id));
+            }
+        }
+        return productMapper.entityToDTO(product);
     }
 
     @Override
     @Transactional
     public ProductDTO saveProduct(ProductRequest productRequest) {
-        return null;
+        Set<ImageFileEntity> imageFiles = new HashSet<>();
+        for (String each:productRequest.getImageId()) {
+            ProductEntity foundProduct = productDao.findProductByImageId(each);
+            if (foundProduct==null){
+                imageFiles.add(imageManager.getImageById(each));
+            }else{
+                throw new ConflictException(ErrorMessage.IMAGE_USED_MESSAGE);
+            }
+        }
+        boolean hasShowcase = false;
+        for (ImageFileEntity each:imageFiles) {
+            if (each.isShowcase()){
+                hasShowcase = true;
+                break;
+            }
+        }
+        if(!hasShowcase){
+            ImageFileEntity imageFile = imageFiles.stream().findFirst().orElse(null);
+            assert imageFile != null;
+            imageFile.setShowcase(true);
+        }
+        BrandEntity brand = brandDao.findById(productRequest.getBrandId()).orElseThrow(()->
+                new ResourceNotFoundException(String.format(ErrorMessage.BRAND_NOT_FOUND_MESSAGE,productRequest.getBrandId())));;
+        CategoryEntity category = categoryManager.getCategoryById(productRequest.getCategoryId());
+
+        ProductEntity product = productMapper.productRequestToProduct(productRequest);
+        product.setSku(uniqueIdGenerator.generateUniqueId(8));
+        product.setSlug(URLEncoder.encode(productRequest.getTitle(), StandardCharsets.UTF_8));
+        product.setStatus(ProductStatus.NOT_PUBLISHED);
+        product.setDiscountedPrice(product.getPrice()*(100-product.getDiscount())/100);
+        product.setBrand(brand);
+        product.setImages(imageFiles);
+        product.setStatus(productRequest.getStatus());
+        product.setCategory(category);
+        product.setDiscountedPrice(product.getPrice()*(100-product.getDiscount())/100);
+        productDao.save(product);
+
+        return productMapper.entityToDTO(product);
     }
 
     @Override
     @Transactional
     public ProductDTO updateProduct(Long id, ProductUpdateRequest productUpdateRequest) {
-        return null;
+        ProductEntity product = findProductById(id);
+        Set<ImageFileEntity> imageFiles = product.getImages();
+        for (String each:productUpdateRequest.getImageId()) {
+            ProductEntity foundProduct = productDao.findProductByImageId(each);
+            if (foundProduct==null){
+                imageFiles.add(imageManager.getImageById(each));
+            }else{
+                throw new ConflictException(ErrorMessage.IMAGE_USED_MESSAGE);
+            }
+        }
+        boolean hasShowcase = false;
+        for (ImageFileEntity each:imageFiles) {
+            if (each.isShowcase()){
+                hasShowcase = true;
+                break;
+            }
+        }
+        if(!hasShowcase){
+            ImageFileEntity imageFile = imageFiles.stream().findFirst().orElse(null);
+            assert imageFile != null;
+            imageFile.setShowcase(true);
+        }
+        BrandEntity brand = brandDao.findById(productUpdateRequest.getBrandId()).orElseThrow(()->
+                new ResourceNotFoundException(String.format(ErrorMessage.BRAND_NOT_FOUND_MESSAGE,id)));
+        CategoryEntity category = categoryManager.getCategoryById(productUpdateRequest.getCategoryId());
+
+
+        product = productMapper.productUpdateRequestToProduct(productUpdateRequest);
+        product.setTitle(productUpdateRequest.getTitle());
+        product.setShortDesc(productUpdateRequest.getShortDesc());
+        product.setLongDesc(productUpdateRequest.getLongDesc());
+        product.setPrice(productUpdateRequest.getPrice());
+        product.setTax(productUpdateRequest.getTax());
+        product.setDiscount(productUpdateRequest.getDiscount());
+        product.setStockAmount(productUpdateRequest.getStockAmount());
+        product.setStockAlarmLimit(productUpdateRequest.getStockAlarmLimit());
+        product.setSlug(URLEncoder.encode(productUpdateRequest.getTitle(), StandardCharsets.UTF_8));
+        product.setStatus(productUpdateRequest.getStatus());
+        product.setWidth(productUpdateRequest.getWidth());
+        product.setLength(productUpdateRequest.getLength());
+        product.setHeight(productUpdateRequest.getHeight());
+        product.setUpdateAt( LocalDateTime.now());
+        product.setBrand(brand);
+        product.setCategory(category);
+        product.setDiscountedPrice(product.getPrice()*(100-product.getDiscount())/100);
+        productDao.save(product);
+
+        return productMapper.entityToDTO(product);
     }
 
     @Override
@@ -149,7 +253,11 @@ public class ProductManager implements ProductService {
 
     @Override
     @Transactional
-    public void removeImageById(String id) {
+    public void removeProductImageByImageId(String id) {
 
+    }
+    public ProductEntity findProductById(Long id){
+        return productDao.findProductById(id).orElseThrow(()->
+                new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,id)));
     }
 }

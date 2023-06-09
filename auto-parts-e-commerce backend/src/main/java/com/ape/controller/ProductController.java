@@ -31,7 +31,7 @@ public class ProductController {
 
     @GetMapping
     @Operation(summary = "Get all products with filter and page")
-    public ResponseEntity<PageImpl<ProductDTO>> getProducts(@RequestParam(value = "q",required = false) String query,
+    public ResponseEntity<PageImpl<ProductDTO>> getAllWithQueryAndPage(@RequestParam(value = "q",required = false) String query,
                                                             @RequestParam(value = "categories",required = false) List<Long> categoryId,
                                                             @RequestParam(value = "brands",required = false) List<Long> brandId,
                                                             @RequestParam(value = "minPrice",required = false) Integer minPrice,
@@ -44,14 +44,14 @@ public class ProductController {
                                                                     required = false,
                                                                     defaultValue = "DESC") Sort.Direction direction){
         Pageable pageable = PageRequest.of(page,size, Sort.by(direction,prop));
-        PageImpl<ProductDTO> productDTO = productManager.findAllWithQueryAndPage(query,categoryId,brandId,minPrice,maxPrice,status,pageable);
+        PageImpl<ProductDTO> productDTO = productManager.getAllWithQueryAndPage(query,categoryId,brandId,minPrice,maxPrice,status,pageable);
         return ResponseEntity.ok(productDTO);
     }
 
     @GetMapping("/{productId}")
     @Operation(summary = "Get product with ID")
     public ResponseEntity<ProductDTO> getProductWithId(@PathVariable("productId") Long id){
-        ProductDTO response = productManager.getProductDTOById(id);
+        ProductDTO response = productManager.getProductById(id);
         return ResponseEntity.ok(response);
     }
 
@@ -87,7 +87,7 @@ public class ProductController {
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Delete product image with image ID")
     public ResponseEntity<Response>deleteProductImage(@PathVariable("imageId") String id){
-        productManager.removeImageById(id);
+        productManager.removeProductImageByImageId(id);
         Response response =new Response(ResponseMessage.IMAGE_DELETE_RESPONSE_MESSAGE,true);
         return ResponseEntity.ok(response);
     }
