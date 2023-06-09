@@ -1,8 +1,8 @@
 package com.ape.business.concretes;
 
 import com.ape.business.abstracts.ConfirmationTokenService;
-import com.ape.dao.ConfirmationTokenDao;
-import com.ape.entity.ConfirmationTokenEntity;
+import com.ape.entity.dao.ConfirmationTokenDao;
+import com.ape.entity.concrete.ConfirmationTokenEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

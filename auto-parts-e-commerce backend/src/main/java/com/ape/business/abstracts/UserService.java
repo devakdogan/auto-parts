@@ -1,11 +1,11 @@
 package com.ape.business.abstracts;
 
-import com.ape.dto.UserDTO;
-import com.ape.dto.request.LoginRequest;
-import com.ape.dto.request.RegisterRequest;
-import com.ape.dto.request.UserUpdateRequest;
-import com.ape.dto.response.LoginResponse;
-import com.ape.entity.UserEntity;
+import com.ape.entity.dto.UserDTO;
+import com.ape.entity.dto.request.LoginRequest;
+import com.ape.entity.dto.request.RegisterRequest;
+import com.ape.entity.dto.request.UserUpdateRequest;
+import com.ape.entity.dto.response.LoginResponse;
+import com.ape.entity.concrete.UserEntity;
 import com.ape.entity.enums.RoleType;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;

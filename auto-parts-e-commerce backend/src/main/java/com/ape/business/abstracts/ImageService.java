@@ -1,7 +1,7 @@
 package com.ape.business.abstracts;
 
-import com.ape.dto.ImageFileDTO;
-import com.ape.entity.ImageFileEntity;
+import com.ape.entity.dto.ImageFileDTO;
+import com.ape.entity.concrete.ImageFileEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;

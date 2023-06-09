@@ -1,15 +1,15 @@
 package com.ape.business.concretes;
 
 import com.ape.business.abstracts.BrandService;
-import com.ape.dao.BrandDao;
-import com.ape.dao.ImageDao;
-import com.ape.dao.ProductDao;
-import com.ape.dto.BrandDTO;
-import com.ape.dto.request.BrandRequest;
-import com.ape.dto.request.BrandUpdateRequest;
-import com.ape.entity.BrandEntity;
-import com.ape.entity.ImageFileEntity;
-import com.ape.entity.RoleEntity;
+import com.ape.entity.dao.BrandDao;
+import com.ape.entity.dao.ImageDao;
+import com.ape.entity.dao.ProductDao;
+import com.ape.entity.dto.BrandDTO;
+import com.ape.entity.dto.request.BrandRequest;
+import com.ape.entity.dto.request.BrandUpdateRequest;
+import com.ape.entity.concrete.BrandEntity;
+import com.ape.entity.concrete.ImageFileEntity;
+import com.ape.entity.concrete.RoleEntity;
 import com.ape.entity.enums.BrandStatus;
 import com.ape.entity.enums.RoleType;
 import com.ape.exception.BadRequestException;

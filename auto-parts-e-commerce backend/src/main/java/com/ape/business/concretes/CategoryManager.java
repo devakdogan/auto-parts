@@ -1,13 +1,13 @@
 package com.ape.business.concretes;
 
 import com.ape.business.abstracts.CategoryService;
-import com.ape.dao.CategoryDao;
-import com.ape.dao.ProductDao;
-import com.ape.dto.CategoryDTO;
-import com.ape.dto.request.CategoryRequest;
-import com.ape.dto.request.CategoryUpdateRequest;
-import com.ape.entity.CategoryEntity;
-import com.ape.entity.RoleEntity;
+import com.ape.entity.dao.CategoryDao;
+import com.ape.entity.dao.ProductDao;
+import com.ape.entity.dto.CategoryDTO;
+import com.ape.entity.dto.request.CategoryRequest;
+import com.ape.entity.dto.request.CategoryUpdateRequest;
+import com.ape.entity.concrete.CategoryEntity;
+import com.ape.entity.concrete.RoleEntity;
 import com.ape.entity.enums.CategoryStatus;
 import com.ape.entity.enums.RoleType;
 import com.ape.exception.BadRequestException;

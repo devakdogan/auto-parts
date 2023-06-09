@@ -1,12 +1,12 @@
 package com.ape.business.concretes;
 
 import com.ape.business.abstracts.ImageService;
-import com.ape.dao.ImageDao;
-import com.ape.dao.ProductDao;
-import com.ape.dto.ImageFileDTO;
-import com.ape.entity.ImageDataEntity;
-import com.ape.entity.ImageFileEntity;
-import com.ape.entity.ProductEntity;
+import com.ape.entity.dao.ImageDao;
+import com.ape.entity.dao.ProductDao;
+import com.ape.entity.dto.ImageFileDTO;
+import com.ape.entity.concrete.ImageDataEntity;
+import com.ape.entity.concrete.ImageFileEntity;
+import com.ape.entity.concrete.ProductEntity;
 import com.ape.exception.ImageFileException;
 import com.ape.exception.ResourceNotFoundException;
 import com.ape.exception.ErrorMessage;

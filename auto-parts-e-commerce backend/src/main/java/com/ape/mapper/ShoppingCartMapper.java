@@ -1,8 +1,8 @@
 package com.ape.mapper;
 
 
-import com.ape.dto.ShoppingCartDTO;
-import com.ape.entity.ShoppingCartEntity;
+import com.ape.entity.dto.ShoppingCartDTO;
+import com.ape.entity.concrete.ShoppingCartEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

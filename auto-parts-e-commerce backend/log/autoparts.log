@@ -7200,3 +7200,129 @@ org.postgresql.util.PSQLException: ERROR: column "id" is of type uuid but expres
 2023-06-08 23:22:05,723 INFO  [SpringApplicationShutdownHook]  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Closing JPA EntityManagerFactory for persistence unit 'default'
 2023-06-08 23:22:05,725 INFO  [SpringApplicationShutdownHook]  com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown initiated...
 2023-06-08 23:22:05,727 INFO  [SpringApplicationShutdownHook]  com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown completed.
+2023-06-09 15:38:55,544 INFO  [restartedMain]  com.ape.AutoPartsECommerceApplication:Starting AutoPartsECommerceApplication using Java 17.0.6 on baelvorn with PID 23036 (D:\Bireysel Projeler\Auto Parts E-Commerce\auto-parts-e-commerce backend\target\classes started by akdogan in D:\Bireysel Projeler\Auto Parts E-Commerce\auto-parts-e-commerce backend)
+2023-06-09 15:38:55,546 INFO  [restartedMain]  com.ape.AutoPartsECommerceApplication:No active profile set, falling back to 1 default profile: "default"
+2023-06-09 15:38:55,583 INFO  [restartedMain]  org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor:Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-06-09 15:38:55,583 INFO  [restartedMain]  org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor:For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-06-09 15:38:56,479 INFO  [restartedMain]  org.springframework.data.repository.config.RepositoryConfigurationDelegate:Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-06-09 15:38:56,548 INFO  [restartedMain]  org.springframework.data.repository.config.RepositoryConfigurationDelegate:Finished Spring Data repository scanning in 64 ms. Found 9 JPA repository interfaces.
+2023-06-09 15:38:56,983 INFO  [restartedMain]  org.springframework.boot.web.embedded.tomcat.TomcatWebServer:Tomcat initialized with port(s): 8080 (http)
+2023-06-09 15:38:56,989 INFO  [restartedMain]  org.apache.catalina.core.StandardService:Starting service [Tomcat]
+2023-06-09 15:38:56,990 INFO  [restartedMain]  org.apache.catalina.core.StandardEngine:Starting Servlet engine: [Apache Tomcat/9.0.75]
+2023-06-09 15:38:57,055 INFO  [restartedMain]  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]:Initializing Spring embedded WebApplicationContext
+2023-06-09 15:38:57,055 INFO  [restartedMain]  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext:Root WebApplicationContext: initialization completed in 1471 ms
+2023-06-09 15:38:57,250 INFO  [restartedMain]  org.hibernate.jpa.internal.util.LogHelper:HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-06-09 15:38:57,290 INFO  [restartedMain]  org.hibernate.Version:HHH000412: Hibernate ORM core version 5.6.15.Final
+2023-06-09 15:38:57,389 INFO  [restartedMain]  org.hibernate.annotations.common.Version:HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-06-09 15:38:57,455 INFO  [restartedMain]  com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Starting...
+2023-06-09 15:38:57,593 INFO  [restartedMain]  com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Start completed.
+2023-06-09 15:38:57,605 INFO  [restartedMain]  org.hibernate.dialect.Dialect:HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2023-06-09 15:38:58,243 INFO  [restartedMain]  org.hibernate.orm.connections.access:HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@70753044] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+2023-06-09 15:38:58,471 INFO  [restartedMain]  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator:HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-06-09 15:38:58,478 INFO  [restartedMain]  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-06-09 15:38:59,191 INFO  [restartedMain]  org.springframework.security.web.DefaultSecurityFilterChain:Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@123817dc, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5190dbba, org.springframework.security.web.context.SecurityContextPersistenceFilter@316dafb9, org.springframework.security.web.header.HeaderWriterFilter@344d3c5f, org.springframework.security.web.authentication.logout.LogoutFilter@2371d4d9, com.ape.security.jwt.AuthTokenFilter@583af298, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@57cec20c, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@20e00620, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@308d4900, org.springframework.security.web.session.SessionManagementFilter@78b0562, org.springframework.security.web.access.ExceptionTranslationFilter@3f829f14, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@5bc30504]
+2023-06-09 15:38:59,279 WARN  [restartedMain]  org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration:spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-06-09 15:39:00,029 INFO  [restartedMain]  org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer:LiveReload server is running on port 35729
+2023-06-09 15:39:00,036 INFO  [restartedMain]  org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver:Exposing 15 endpoint(s) beneath base path '/actuator'
+2023-06-09 15:39:00,099 INFO  [restartedMain]  org.springframework.boot.web.embedded.tomcat.TomcatWebServer:Tomcat started on port(s): 8080 (http) with context path ''
+2023-06-09 15:39:00,114 INFO  [restartedMain]  com.ape.AutoPartsECommerceApplication:Started AutoPartsECommerceApplication in 4.897 seconds (JVM running for 5.549)
+2023-06-09 15:39:00,544 INFO  [RMI TCP Connection(1)-192.168.1.2]  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]:Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-06-09 15:40:47,359 INFO  [http-nio-8080-exec-3]  org.springdoc.api.AbstractOpenApiResource:Init duration for springdoc-openapi is: 296 ms
+2023-06-09 16:18:52,567 INFO  [http-nio-8080-exec-5]  org.apache.coyote.http11.Http11Processor:Error parsing HTTP request header
+ Note: further occurrences of HTTP request parsing errors will be logged at DEBUG level.
+java.lang.IllegalArgumentException: Invalid character found in method name [0x160x030x010x020x000x010x000x010xfc0x030x03,<0xbc0xc1*0xdf0xcdF0xb70xbe30xfb0x85,0xb4u0xb60x880x94Q0x140x09pv0x16M:k0x070x060xa90x92 ]. HTTP method names must be tokens
+	at org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:407)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:263)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:926)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1791)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+2023-06-09 16:18:52,568 INFO  [http-nio-8080-exec-8]  org.apache.coyote.http11.Http11Processor:Error parsing HTTP request header
+ Note: further occurrences of HTTP request parsing errors will be logged at DEBUG level.
+java.lang.IllegalArgumentException: Invalid character found in method name [0x160x030x010x020x000x010x000x010xfc0x030x030x14&0x040xa10x15I$V0xacN0xb00x800xbcI`0xac$_j0x830xa7i0xca0x8a0xfe0xe10x9e0xaf0x0d0xe55> ]. HTTP method names must be tokens
+	at org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:407)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:263)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:926)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1791)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+2023-06-09 16:18:52,568 INFO  [http-nio-8080-exec-7]  org.apache.coyote.http11.Http11Processor:Error parsing HTTP request header
+ Note: further occurrences of HTTP request parsing errors will be logged at DEBUG level.
+java.lang.IllegalArgumentException: Invalid character found in method name [0x160x030x010x020x000x010x000x010xfc0x030x030xc40x99_0x140xd10xb70xd70x120xe50xa20x140xb1K0xf60xa50xaa0xf50x090xb8f0xbfD0x910xebN;0xa50xb30x9d=-d ]. HTTP method names must be tokens
+	at org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:407)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:263)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:926)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1791)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+2023-06-09 16:18:52,568 INFO  [http-nio-8080-exec-9]  org.apache.coyote.http11.Http11Processor:Error parsing HTTP request header
+ Note: further occurrences of HTTP request parsing errors will be logged at DEBUG level.
+java.lang.IllegalArgumentException: Invalid character found in method name [0x160x030x010x020x000x010x000x010xfc0x030x03z0x99f@0xbd0xab60x97L0/0x1d0xdf0xfa0x1a0xe0O0x9e0xd0!0x0f0xd9sfS0xe40x810x0a!0x960xf50xb6 ]. HTTP method names must be tokens
+	at org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:407)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:263)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:926)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1791)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+2023-06-09 16:18:52,568 INFO  [http-nio-8080-exec-4]  org.apache.coyote.http11.Http11Processor:Error parsing HTTP request header
+ Note: further occurrences of HTTP request parsing errors will be logged at DEBUG level.
+java.lang.IllegalArgumentException: Invalid character found in method name [0x160x030x010x020x000x010x000x010xfc0x030x03P0xa30xdc0xadT0x10hh0xa40xb60xbd0x860xd4%0xa4L:0x17:0xcb0x8d`80x87v0x120x9d\0xc70xcc0xa9{ ]. HTTP method names must be tokens
+	at org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:407)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:263)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:926)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1791)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+2023-06-09 19:48:10,591 INFO  [SpringApplicationShutdownHook]  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-06-09 19:48:10,607 INFO  [SpringApplicationShutdownHook]  com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown initiated...
+2023-06-09 19:48:10,610 INFO  [SpringApplicationShutdownHook]  com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown completed.
+2023-06-09 19:48:19,338 INFO  [restartedMain]  com.ape.AutoPartsECommerceApplication:Starting AutoPartsECommerceApplication using Java 17.0.6 on baelvorn with PID 3344 (D:\Bireysel Projeler\Auto Parts E-Commerce\auto-parts-e-commerce backend\target\classes started by akdogan in D:\Bireysel Projeler\Auto Parts E-Commerce\auto-parts-e-commerce backend)
+2023-06-09 19:48:19,340 INFO  [restartedMain]  com.ape.AutoPartsECommerceApplication:No active profile set, falling back to 1 default profile: "default"
+2023-06-09 19:48:19,384 INFO  [restartedMain]  org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor:Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-06-09 19:48:19,384 INFO  [restartedMain]  org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor:For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-06-09 19:48:20,205 INFO  [restartedMain]  org.springframework.data.repository.config.RepositoryConfigurationDelegate:Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-06-09 19:48:20,272 INFO  [restartedMain]  org.springframework.data.repository.config.RepositoryConfigurationDelegate:Finished Spring Data repository scanning in 63 ms. Found 9 JPA repository interfaces.
+2023-06-09 19:48:20,727 INFO  [restartedMain]  org.springframework.boot.web.embedded.tomcat.TomcatWebServer:Tomcat initialized with port(s): 8080 (http)
+2023-06-09 19:48:20,735 INFO  [restartedMain]  org.apache.catalina.core.StandardService:Starting service [Tomcat]
+2023-06-09 19:48:20,735 INFO  [restartedMain]  org.apache.catalina.core.StandardEngine:Starting Servlet engine: [Apache Tomcat/9.0.75]
+2023-06-09 19:48:20,805 INFO  [restartedMain]  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]:Initializing Spring embedded WebApplicationContext
+2023-06-09 19:48:20,805 INFO  [restartedMain]  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext:Root WebApplicationContext: initialization completed in 1420 ms
+2023-06-09 19:48:21,009 INFO  [restartedMain]  org.hibernate.jpa.internal.util.LogHelper:HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-06-09 19:48:21,064 INFO  [restartedMain]  org.hibernate.Version:HHH000412: Hibernate ORM core version 5.6.15.Final
+2023-06-09 19:48:21,185 INFO  [restartedMain]  org.hibernate.annotations.common.Version:HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-06-09 19:48:21,260 INFO  [restartedMain]  com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Starting...
+2023-06-09 19:48:21,381 INFO  [restartedMain]  com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Start completed.
+2023-06-09 19:48:21,396 INFO  [restartedMain]  org.hibernate.dialect.Dialect:HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2023-06-09 19:48:22,093 INFO  [restartedMain]  org.hibernate.orm.connections.access:HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@6c2cb9d0] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+2023-06-09 19:48:22,309 INFO  [restartedMain]  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator:HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-06-09 19:48:22,317 INFO  [restartedMain]  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-06-09 19:48:23,044 INFO  [restartedMain]  org.springframework.security.web.DefaultSecurityFilterChain:Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@5f0dd190, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4a1f6053, org.springframework.security.web.context.SecurityContextPersistenceFilter@3300dc3b, org.springframework.security.web.header.HeaderWriterFilter@5fac2c58, org.springframework.security.web.authentication.logout.LogoutFilter@7420f181, com.ape.security.jwt.AuthTokenFilter@4722548, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@49a80b21, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1be194b5, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@f6fefa6, org.springframework.security.web.session.SessionManagementFilter@68afef0d, org.springframework.security.web.access.ExceptionTranslationFilter@52158509, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@4babd58f]
+2023-06-09 19:48:23,128 WARN  [restartedMain]  org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration:spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-06-09 19:48:23,860 INFO  [restartedMain]  org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer:LiveReload server is running on port 35729
+2023-06-09 19:48:23,865 INFO  [restartedMain]  org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver:Exposing 15 endpoint(s) beneath base path '/actuator'
+2023-06-09 19:48:23,920 INFO  [restartedMain]  org.springframework.boot.web.embedded.tomcat.TomcatWebServer:Tomcat started on port(s): 8080 (http) with context path ''
+2023-06-09 19:48:23,935 INFO  [restartedMain]  com.ape.AutoPartsECommerceApplication:Started AutoPartsECommerceApplication in 5.007 seconds (JVM running for 6.007)
+2023-06-09 19:48:24,031 INFO  [RMI TCP Connection(2)-192.168.1.2]  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]:Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-06-09 19:48:28,335 INFO  [SpringApplicationShutdownHook]  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-06-09 19:48:28,337 INFO  [SpringApplicationShutdownHook]  com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown initiated...
+2023-06-09 19:48:28,339 INFO  [SpringApplicationShutdownHook]  com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown completed.

@@ -1,12 +1,12 @@
 package com.ape.mapper;
 
-import com.ape.dto.ProductDTO;
-import com.ape.dto.request.ProductRequest;
-import com.ape.dto.request.ProductUpdateRequest;
-import com.ape.entity.BrandEntity;
-import com.ape.entity.CategoryEntity;
-import com.ape.entity.ImageFileEntity;
-import com.ape.entity.ProductEntity;
+import com.ape.entity.dto.ProductDTO;
+import com.ape.entity.dto.request.ProductRequest;
+import com.ape.entity.dto.request.ProductUpdateRequest;
+import com.ape.entity.concrete.BrandEntity;
+import com.ape.entity.concrete.CategoryEntity;
+import com.ape.entity.concrete.ImageFileEntity;
+import com.ape.entity.concrete.ProductEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;

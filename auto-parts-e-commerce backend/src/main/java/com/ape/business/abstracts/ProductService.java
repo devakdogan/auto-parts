@@ -1,9 +1,9 @@
 package com.ape.business.abstracts;
 
-import com.ape.dto.ProductDTO;
-import com.ape.dto.request.ProductRequest;
-import com.ape.dto.request.ProductUpdateRequest;
-import com.ape.entity.ProductEntity;
+import com.ape.entity.dto.ProductDTO;
+import com.ape.entity.dto.request.ProductRequest;
+import com.ape.entity.dto.request.ProductUpdateRequest;
+import com.ape.entity.concrete.ProductEntity;
 import com.ape.entity.enums.ProductStatus;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;

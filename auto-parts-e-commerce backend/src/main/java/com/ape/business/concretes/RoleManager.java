@@ -1,8 +1,8 @@
 package com.ape.business.concretes;
 
 import com.ape.business.abstracts.RoleService;
-import com.ape.dao.RoleDao;
-import com.ape.entity.RoleEntity;
+import com.ape.entity.dao.RoleDao;
+import com.ape.entity.concrete.RoleEntity;
 import com.ape.entity.enums.RoleType;
 import com.ape.exception.ResourceNotFoundException;
 import com.ape.exception.ErrorMessage;
