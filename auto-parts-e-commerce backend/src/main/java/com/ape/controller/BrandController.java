@@ -19,6 +19,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -73,5 +74,12 @@ public class BrandController {
         BrandDTO brandDTO = brandManager.deleteBrandById(id);
         Response response = new DataResponse<>(ResponseMessage.BRAND_DELETE_RESPONSE_MESSAGE,true,brandDTO);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/option")
+    @Operation(summary = "Get brand list for dropdown menu in frontend")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ResponseEntity<List<BrandDTO>> getAllBrandsForOption(){
+        return ResponseEntity.ok(brandManager.getAllBrandList());
     }
 }

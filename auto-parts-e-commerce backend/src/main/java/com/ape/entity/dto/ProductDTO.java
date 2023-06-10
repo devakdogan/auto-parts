@@ -40,11 +40,7 @@ public class ProductDTO {
 
     private String slug;
 
-    private Boolean featured;
-
     private Set<ShowcaseImageDTO> image;
-
-    private Boolean newProduct;
 
     private ProductStatus status;
 

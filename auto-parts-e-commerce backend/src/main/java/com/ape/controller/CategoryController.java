@@ -75,4 +75,11 @@ public class CategoryController {
         Response response = new DataResponse<>(ResponseMessage.CATEGORY_DELETED_RESPONSE_MESSAGE, true,categoryDTO);
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/{categoryId}")
+    @Operation(summary = "Get category with ID")
+    public ResponseEntity<CategoryDTO> getCategoryById(@PathVariable("categoryId") Long id){
+        CategoryDTO categoryDTO= categoryManager.findCategoryById(id);
+        return ResponseEntity.ok(categoryDTO);
+    }
 }

@@ -13,6 +13,6 @@ public interface CategoryDao extends JpaRepository<CategoryEntity,Long> {
     Boolean existsByTitle(String title);
 
     @Query("SELECT c from CategoryEntity c WHERE c.status=:status and c.id=:id")
-    Optional<CategoryEntity>  getCategoryByStatus_PublishedAndId(@Param("status") CategoryStatus status, @Param("id") Long id);
+    Optional<CategoryEntity> getCategoryByStatusPublishedAndId(@Param("status") CategoryStatus status, @Param("id") Long id);
 
 }

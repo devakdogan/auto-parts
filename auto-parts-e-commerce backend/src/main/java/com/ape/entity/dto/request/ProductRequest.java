@@ -31,10 +31,7 @@ public class ProductRequest {
     private Integer discount;
     private Integer stockAmount;
     private Integer stockAlarmLimit;
-    @NotNull(message = "Please provide if the product is featured or not")
-    private Boolean featured;
     private Set<String> imageId;
-    private Boolean newProduct;
     private ProductStatus status;
     private Double width;
     private Double length;

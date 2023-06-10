@@ -26,6 +26,5 @@ public interface UserService {
     void resetFailedAttempts(UserEntity user);
     void increaseFailedAttempts(UserEntity user);
     void lock(UserEntity user);
-
-
+    long countUserRecords();
 }

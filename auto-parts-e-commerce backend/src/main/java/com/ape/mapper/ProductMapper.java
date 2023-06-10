@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring",uses = {BrandMapper.class,CategoryMapper.class})
+@Mapper(componentModel = "spring",uses = {ImageFileMapper.class,BrandMapper.class,CategoryMapper.class})
 public interface ProductMapper {
 
     ProductDTO entityToDTO(ProductEntity product);
@@ -50,10 +50,4 @@ public interface ProductMapper {
         return category.getId();
     }
 
-    @Named("getImageAsString")
-    public static Set<String> getImageId(Set<ImageFileEntity> imageFiles){
-        Set<String> images;
-        images = imageFiles.stream().map(ImageFileEntity::getId).collect(Collectors.toSet());
-        return images;
-    }
 }

@@ -41,6 +41,7 @@ public class AuthTokenFilter extends OncePerRequestFilter{
                  SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
         } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             logger.error("User not Found{} :" , e.getMessage());
         }
         filterChain.doFilter(request, response);

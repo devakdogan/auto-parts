@@ -29,7 +29,7 @@ public class ImageController {
     @PostMapping("/upload")
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Save image to database")
-    public ResponseEntity<ImageResponse> uploadImage(@RequestParam("image") MultipartFile[] image){
+    public ResponseEntity<ImageResponse> uploadImage(@RequestParam("imageId") MultipartFile[] image){
         Set<String> images = imageManager.saveImage(image);
         ImageResponse response=new ImageResponse(images,ResponseMessage.IMAGE_SAVED_RESPONSE_MESSAGE,true);
         return ResponseEntity.ok(response);

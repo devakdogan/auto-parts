@@ -18,4 +18,5 @@ public interface ProductService {
     ProductDTO removeById(Long id);
     void removeProductImageByImageId(String id);
     ProductEntity findProductById(Long id);
+    long countProductRecords();
 }
