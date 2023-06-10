@@ -8,6 +8,8 @@ import com.ape.entity.enums.BrandStatus;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface BrandService {
     PageImpl<BrandDTO> getAllBrandsWithFilterAndPage(String query, BrandStatus status, Pageable pageable);
     BrandDTO getBrandById(Long id);
@@ -15,4 +17,6 @@ public interface BrandService {
     BrandDTO updateBrand(Long id, BrandUpdateRequest brandUpdateRequest);
     BrandDTO deleteBrandById(Long id);
     BrandEntity findBrandById(Long id);
+    List<BrandDTO> getAllBrandList();
+    long countBrandRecords();
 }

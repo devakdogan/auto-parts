@@ -17,4 +17,6 @@ public interface CategoryService {
     CategoryDTO updateCategory(Long id, CategoryUpdateRequest categoryUpdateRequest);
     CategoryDTO removeById(Long id);
     CategoryEntity getCategoryById(Long id);
+    long countCategoryRecords();
+    CategoryDTO findCategoryById(Long id);
 }

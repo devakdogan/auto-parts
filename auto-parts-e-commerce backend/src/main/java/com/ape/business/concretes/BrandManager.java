@@ -191,4 +191,15 @@ public class BrandManager implements BrandService {
         return brandDao.findById(id).orElseThrow(()->
                 new ResourceNotFoundException(String.format(ErrorMessage.BRAND_NOT_FOUND_MESSAGE,id)));
     }
+
+    @Override
+    public List<BrandDTO> getAllBrandList() {
+        List<BrandEntity> brandList = brandDao.findAll();
+        return brandMapper.entityListToDTOList(brandList);
+    }
+
+    @Override
+    public long countBrandRecords() {
+        return brandDao.count();
+    }
 }

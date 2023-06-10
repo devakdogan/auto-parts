@@ -158,4 +158,29 @@ public class CategoryManager implements CategoryService {
         return categoryDao.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, id)));
     }
+
+    @Override
+    public long countCategoryRecords() {
+        return categoryDao.count();
+    }
+
+    @Override
+    public CategoryDTO findCategoryById(Long id) {
+        CategoryEntity category = null;
+        try{
+            RoleEntity role = roleManager.findByRoleName(RoleType.ROLE_ADMIN);
+            boolean isAdmin = userManager.getCurrentUser().getRoles().stream().anyMatch(r->r.equals(role));
+            if (isAdmin) {
+                category = categoryDao.findById(id).orElseThrow(()->
+                        new ResourceNotFoundException(ErrorMessage.CATEGORY_NOT_FOUND_MESSAGE)) ;;
+            }else{
+                throw  new ResourceNotFoundException(ErrorMessage.CATEGORY_NOT_FOUND_MESSAGE);
+            }
+        }catch(ResourceNotFoundException e){
+            CategoryStatus status=CategoryStatus.PUBLISHED;
+            category = categoryDao.getCategoryByStatusPublishedAndId(status,id).orElseThrow(()->
+                    new ResourceNotFoundException(ErrorMessage.CATEGORY_NOT_FOUND_MESSAGE));
+        }
+        return categoryMapper.entityToDTO(category);
+    }
 }

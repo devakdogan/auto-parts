@@ -323,4 +323,9 @@ public class UserManager implements UserService {
     public void lock(UserEntity user) {
         user.setIsLocked(true);
     }
+
+    @Override
+    public long countUserRecords() {
+       return userDao.count();
+    }
 }

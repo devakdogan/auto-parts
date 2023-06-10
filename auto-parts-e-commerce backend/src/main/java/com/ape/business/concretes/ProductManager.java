@@ -260,4 +260,9 @@ public class ProductManager implements ProductService {
         return productDao.findProductById(id).orElseThrow(()->
                 new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,id)));
     }
+
+    @Override
+    public long countProductRecords() {
+        return productDao.count();
+    }
 }
