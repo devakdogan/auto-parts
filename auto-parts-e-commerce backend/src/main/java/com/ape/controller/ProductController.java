@@ -1,6 +1,6 @@
 package com.ape.controller;
 
-import com.ape.business.concretes.ProductManager;
+import com.ape.business.abstracts.ProductService;
 import com.ape.entity.dto.ProductDTO;
 import com.ape.entity.dto.request.ProductRequest;
 import com.ape.entity.dto.request.ProductUpdateRequest;
@@ -27,7 +27,7 @@ import java.util.List;
 @RequestMapping("/product")
 public class ProductController {
 
-    private final ProductManager productManager;
+    private final ProductService productService;
 
     @GetMapping
     @Operation(summary = "Get all products with filter and page")
@@ -44,14 +44,14 @@ public class ProductController {
                                                                     required = false,
                                                                     defaultValue = "DESC") Sort.Direction direction){
         Pageable pageable = PageRequest.of(page,size, Sort.by(direction,prop));
-        PageImpl<ProductDTO> productDTO = productManager.getAllWithQueryAndPage(query,categoryId,brandId,minPrice,maxPrice,status,pageable);
+        PageImpl<ProductDTO> productDTO = productService.getAllWithQueryAndPage(query,categoryId,brandId,minPrice,maxPrice,status,pageable);
         return ResponseEntity.ok(productDTO);
     }
 
     @GetMapping("/{productId}")
     @Operation(summary = "Get product with ID")
     public ResponseEntity<ProductDTO> getProductWithId(@PathVariable("productId") Long id){
-        ProductDTO response = productManager.getProductById(id);
+        ProductDTO response = productService.getProductById(id);
         return ResponseEntity.ok(response);
     }
 
@@ -59,7 +59,7 @@ public class ProductController {
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Create product in database")
     public ResponseEntity<Response> saveProduct(@Valid @RequestBody ProductRequest productRequest){
-        ProductDTO productDTO = productManager.saveProduct(productRequest);
+        ProductDTO productDTO = productService.saveProduct(productRequest);
         Response response = new DataResponse<>(ResponseMessage.PRODUCT_SAVED_RESPONSE_MESSAGE,true,productDTO);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
@@ -69,16 +69,16 @@ public class ProductController {
     @Operation(summary = "Update product with ID")
     public ResponseEntity<Response> updateProduct(@PathVariable("productId") Long id,
                                                   @Valid @RequestBody ProductUpdateRequest productUpdateRequest){
-        ProductDTO productDTO = productManager.updateProduct(id, productUpdateRequest);
+        ProductDTO productDTO = productService.updateProduct(id, productUpdateRequest);
         DataResponse<ProductDTO> response = new DataResponse<>(ResponseMessage.PRODUCT_UPDATED_RESPONSE_MESSAGE,true,productDTO);
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{productId}/admin")
-    @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @Operation(summary = "Delete product with ID")
     public ResponseEntity<Response> deleteProduct(@PathVariable("productId") Long id){
-        ProductDTO productDTO = productManager.removeById(id);
+        ProductDTO productDTO = productService.removeById(id);
         Response response = new DataResponse<>(ResponseMessage.PRODUCT_DELETE_RESPONSE_MESSAGE,true,productDTO);
         return ResponseEntity.ok(response);
     }
@@ -87,7 +87,7 @@ public class ProductController {
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Delete product image with image ID")
     public ResponseEntity<Response>deleteProductImage(@PathVariable("imageId") String id){
-        productManager.removeProductImageByImageId(id);
+        productService.removeProductImageByImageId(id);
         Response response =new Response(ResponseMessage.IMAGE_DELETE_RESPONSE_MESSAGE,true);
         return ResponseEntity.ok(response);
     }

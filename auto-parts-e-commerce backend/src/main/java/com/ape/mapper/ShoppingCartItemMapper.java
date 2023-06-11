@@ -21,9 +21,9 @@ public interface ShoppingCartItemMapper {
     @Mapping(source = "product",target = "discountedPrice", qualifiedByName = "getDiscountedPrice")
     @Mapping(source = "product",target = "tax",qualifiedByName = "getTaxRate")
     @Mapping(source = "product",target = "stockAmount",qualifiedByName = "getStockAmount")
-    ShoppingCartItemDTO shoppingCartItemToShoppingCartItemDTO(ShoppingCartItemEntity shoppingCartItem);
+    ShoppingCartItemDTO entityToDTO(ShoppingCartItemEntity shoppingCartItem);
 
-    List<ShoppingCartItemDTO> shoppingCartItemToShoppingCartItemDTOAsList(List<ShoppingCartItemEntity> shoppingCartItemList);
+    List<ShoppingCartItemDTO> entityListToDTOList(List<ShoppingCartItemEntity> shoppingCartItemList);
 
     @Named("getProductId")
     public static Long getProductId(ProductEntity product){

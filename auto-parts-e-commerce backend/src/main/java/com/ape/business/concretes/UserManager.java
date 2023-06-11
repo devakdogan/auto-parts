@@ -198,7 +198,7 @@ public class UserManager implements UserService {
     }
 
     @Override
-    public UserDTO getUserById(Long id) {
+    public UserDTO getUserDTOById(Long id) {
         UserEntity user = userDao.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, id)));
         return userMapper.entityToDTO(user);
@@ -327,5 +327,11 @@ public class UserManager implements UserService {
     @Override
     public long countUserRecords() {
        return userDao.count();
+    }
+
+    @Override
+    public UserEntity getUserById(Long userId) {
+        return userDao.findById(userId).orElseThrow(
+                () -> new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, userId)));
     }
 }

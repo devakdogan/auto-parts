@@ -17,7 +17,7 @@ public interface UserService {
     void createUser(RegisterRequest registerRequest);
     UserEntity getUserByEmail(String email);
     UserDTO confirmAccount(String token);
-    UserDTO getUserById(Long id);
+    UserDTO getUserDTOById(Long id);
     UserDTO getPrincipal();
     UserEntity getCurrentUser();
     LoginResponse loginUser(String cartUUID, LoginRequest loginRequest);
@@ -27,4 +27,5 @@ public interface UserService {
     void increaseFailedAttempts(UserEntity user);
     void lock(UserEntity user);
     long countUserRecords();
+    UserEntity getUserById(Long userId);
 }

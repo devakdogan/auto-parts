@@ -1,6 +1,9 @@
 package com.ape.business.concretes;
 
 import com.ape.business.abstracts.BrandService;
+import com.ape.business.abstracts.ImageService;
+import com.ape.business.abstracts.RoleService;
+import com.ape.business.abstracts.UserService;
 import com.ape.entity.dao.BrandDao;
 import com.ape.entity.dao.ImageDao;
 import com.ape.entity.dao.ProductDao;
@@ -40,9 +43,9 @@ import java.util.stream.Collectors;
 public class BrandManager implements BrandService {
 
     private final EntityManager entityManager;
-    private final RoleManager roleManager;
-    private final UserManager userManager;
-    private final ImageManager imageManager;
+    private final RoleService roleService;
+    private final UserService userService;
+    private final ImageService imageService;
     private final BrandMapper brandMapper;
     private final BrandDao brandDao;
     private final NameFilter nameFilter;
@@ -64,8 +67,8 @@ public class BrandManager implements BrandService {
         }
 
         try{
-            RoleEntity role = roleManager.findByRoleName(RoleType.ROLE_ADMIN);
-            boolean isAdmin = userManager.getCurrentUser().getRoles().stream().anyMatch(r->r.equals(role));
+            RoleEntity role = roleService.findByRoleName(RoleType.ROLE_ADMIN);
+            boolean isAdmin = userService.getCurrentUser().getRoles().stream().anyMatch(r->r.equals(role));
             if (isAdmin) {
                 if (status != null){
                     predicates.add(cb.equal(root.get("status"),status));
@@ -107,8 +110,8 @@ public class BrandManager implements BrandService {
     public BrandDTO getBrandById(Long id) {
         BrandEntity brand=null;
         try{
-            RoleEntity role = roleManager.findByRoleName(RoleType.ROLE_ADMIN);
-            boolean isAdmin = userManager.getCurrentUser().getRoles().stream().anyMatch(r->r.equals(role));
+            RoleEntity role = roleService.findByRoleName(RoleType.ROLE_ADMIN);
+            boolean isAdmin = userService.getCurrentUser().getRoles().stream().anyMatch(r->r.equals(role));
             if (isAdmin) {
                 brand = findBrandById(id);
             }else{
@@ -125,7 +128,7 @@ public class BrandManager implements BrandService {
 
     @Override
     public BrandDTO createBrand(BrandRequest brandRequest) {
-        ImageFileEntity imageFile= imageManager.getImageById(brandRequest.getImageId());
+        ImageFileEntity imageFile= imageService.getImageById(brandRequest.getImageId());
 
         Integer usedBrandCount = brandDao.findBrandByImageId(brandRequest.getImageId());
         if(usedBrandCount>0){
@@ -151,7 +154,7 @@ public class BrandManager implements BrandService {
         BrandEntity brand=findBrandById(id);
         if (!brand.getImage().getId().equals(brandUpdateRequest.getImage())){
             ImageFileEntity tempImageFile = brand.getImage();
-            ImageFileEntity imageFile = imageManager.getImageById(brandUpdateRequest.getImage());
+            ImageFileEntity imageFile = imageService.getImageById(brandUpdateRequest.getImage());
             brand.setImage(imageFile);
             imageDao.delete(tempImageFile);
         }

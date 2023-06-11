@@ -1,6 +1,8 @@
 package com.ape.business.concretes;
 
 import com.ape.business.abstracts.CategoryService;
+import com.ape.business.abstracts.RoleService;
+import com.ape.business.abstracts.UserService;
 import com.ape.entity.dao.CategoryDao;
 import com.ape.entity.dao.ProductDao;
 import com.ape.entity.dto.CategoryDTO;
@@ -42,8 +44,8 @@ public class CategoryManager implements CategoryService {
     private final EntityManager entityManager;
     private final CategoryMapper categoryMapper;
     private final CategoryDao categoryDao;
-    private final UserManager userManager;
-    private final RoleManager roleManager;
+    private final UserService userService;
+    private final RoleService roleService;
     private final NameFilter nameFilter;
     private final ProductDao productDao;
 
@@ -63,8 +65,8 @@ public class CategoryManager implements CategoryService {
         }
 
         try{
-            RoleEntity role = roleManager.findByRoleName(RoleType.ROLE_ADMIN);
-            boolean isAdmin = userManager.getCurrentUser().getRoles().stream().anyMatch(r->r.equals(role));
+            RoleEntity role = roleService.findByRoleName(RoleType.ROLE_ADMIN);
+            boolean isAdmin = userService.getCurrentUser().getRoles().stream().anyMatch(r->r.equals(role));
             if (isAdmin) {
                 if (status != null){
                     predicates.add(cb.equal(root.get("status"),status));
@@ -168,8 +170,8 @@ public class CategoryManager implements CategoryService {
     public CategoryDTO findCategoryById(Long id) {
         CategoryEntity category = null;
         try{
-            RoleEntity role = roleManager.findByRoleName(RoleType.ROLE_ADMIN);
-            boolean isAdmin = userManager.getCurrentUser().getRoles().stream().anyMatch(r->r.equals(role));
+            RoleEntity role = roleService.findByRoleName(RoleType.ROLE_ADMIN);
+            boolean isAdmin = userService.getCurrentUser().getRoles().stream().anyMatch(r->r.equals(role));
             if (isAdmin) {
                 category = categoryDao.findById(id).orElseThrow(()->
                         new ResourceNotFoundException(ErrorMessage.CATEGORY_NOT_FOUND_MESSAGE)) ;;

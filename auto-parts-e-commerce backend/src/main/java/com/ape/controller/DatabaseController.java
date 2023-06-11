@@ -1,6 +1,6 @@
 package com.ape.controller;
 
-import com.ape.business.concretes.DatabaseManager;
+import com.ape.business.abstracts.DatabaseService;
 import com.ape.entity.dto.DashboardCountDTO;
 import com.ape.entity.dto.response.DataResponse;
 import com.ape.entity.dto.response.Response;
@@ -18,13 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/database")
 public class DatabaseController {
 
-    private final DatabaseManager databaseManager;
+    private final DatabaseService databaseService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Get count of all sections for dashboard")
     public ResponseEntity<Response> getCountOfAllRecords(){
-        DashboardCountDTO dashboardCountDTO = databaseManager.getCountOfAllRecords();
+        DashboardCountDTO dashboardCountDTO = databaseService.getCountOfAllRecords();
         Response response = new DataResponse<>(ResponseMessage.COUNT_OF_ALL_RECORDS_RESPONSE,true,dashboardCountDTO);
         return ResponseEntity.ok(response);
     }

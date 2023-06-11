@@ -22,10 +22,8 @@ public class CreditCardEntity {
     private Long id;
     @Column(length = 50,nullable=false)
     private String title;
-    @Column(length = 30,nullable=false)
-    private String firstName;
-    @Column(length = 30,nullable=false)
-    private String lastName;
+    @Column(length = 50,nullable=false)
+    private String nameOnCard;
 
     @Column(length = 16,nullable = false)
     private String cardNumber;
@@ -34,7 +32,7 @@ public class CreditCardEntity {
     private LocalDate expirationDate;
 
     @Column(length = 3,nullable = false)
-    private String cvv;
+    private String cvc;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

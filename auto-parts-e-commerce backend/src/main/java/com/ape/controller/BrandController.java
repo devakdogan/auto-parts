@@ -1,6 +1,6 @@
 package com.ape.controller;
 
-import com.ape.business.concretes.BrandManager;
+import com.ape.business.abstracts.BrandService;
 import com.ape.entity.dto.BrandDTO;
 import com.ape.entity.dto.request.BrandRequest;
 import com.ape.entity.dto.request.BrandUpdateRequest;
@@ -26,7 +26,7 @@ import java.util.List;
 @RequestMapping("/brand")
 public class BrandController {
 
-    private final BrandManager brandManager;
+    private final BrandService brandService;
 
     @GetMapping
     @Operation(summary = "Get all brands with filter and page")
@@ -38,14 +38,14 @@ public class BrandController {
                                                            @RequestParam(value="direction",required = false,
                                                                    defaultValue = "DESC") Sort.Direction direction){
         Pageable pageable= PageRequest.of(page,size,Sort.by(direction,prop));
-        PageImpl<BrandDTO> brandDTOPage=brandManager.getAllBrandsWithFilterAndPage(query,status,pageable);
+        PageImpl<BrandDTO> brandDTOPage= brandService.getAllBrandsWithFilterAndPage(query,status,pageable);
         return ResponseEntity.ok(brandDTOPage);
     }
 
     @GetMapping("/{brandId}")
     @Operation(summary = "Get brand by ID")
     public ResponseEntity<BrandDTO> getBrandById(@PathVariable("brandId") Long id){
-        BrandDTO brandDTO = brandManager.getBrandById(id);
+        BrandDTO brandDTO = brandService.getBrandById(id);
         return ResponseEntity.ok(brandDTO);
     }
 
@@ -53,7 +53,7 @@ public class BrandController {
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Create a brand in database")
     public  ResponseEntity<Response> createBrand(@Valid @RequestBody BrandRequest brandRequest){
-        BrandDTO brandDTO = brandManager.createBrand(brandRequest);
+        BrandDTO brandDTO = brandService.createBrand(brandRequest);
         Response response = new DataResponse<>(ResponseMessage.BRAND_CREATE_RESPONSE_MESSAGE,true,brandDTO);
         return ResponseEntity.ok(response);
     }
@@ -62,7 +62,7 @@ public class BrandController {
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Update brand with ID")
     public ResponseEntity<Response> updateBrand(@Valid @PathVariable("brandId") Long id,@RequestBody BrandUpdateRequest brandUpdateRequest){
-        BrandDTO brandDTO = brandManager.updateBrand(id,brandUpdateRequest);
+        BrandDTO brandDTO = brandService.updateBrand(id,brandUpdateRequest);
         Response response = new DataResponse<>(ResponseMessage.BRAND_UPDATE_RESPONSE_MESSAGE,true,brandDTO);
         return  ResponseEntity.ok(response);
     }
@@ -71,7 +71,7 @@ public class BrandController {
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Delete brand with ID")
     public ResponseEntity<Response> deleteBrandById(@PathVariable("brandId") Long id){
-        BrandDTO brandDTO = brandManager.deleteBrandById(id);
+        BrandDTO brandDTO = brandService.deleteBrandById(id);
         Response response = new DataResponse<>(ResponseMessage.BRAND_DELETE_RESPONSE_MESSAGE,true,brandDTO);
         return ResponseEntity.ok(response);
     }
@@ -80,6 +80,6 @@ public class BrandController {
     @Operation(summary = "Get brand list for dropdown menu in frontend")
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<List<BrandDTO>> getAllBrandsForOption(){
-        return ResponseEntity.ok(brandManager.getAllBrandList());
+        return ResponseEntity.ok(brandService.getAllBrandList());
     }
 }

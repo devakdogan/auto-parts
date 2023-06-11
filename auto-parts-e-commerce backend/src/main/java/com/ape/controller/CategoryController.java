@@ -1,6 +1,6 @@
 package com.ape.controller;
 
-import com.ape.business.concretes.CategoryManager;
+import com.ape.business.abstracts.CategoryService;
 import com.ape.entity.dto.CategoryDTO;
 import com.ape.entity.dto.request.CategoryRequest;
 import com.ape.entity.dto.request.CategoryUpdateRequest;
@@ -27,7 +27,7 @@ import java.util.List;
 @RequestMapping("/category")
 public class CategoryController {
 
-    private final CategoryManager categoryManager;
+    private final CategoryService categoryService;
 
     @GetMapping()
     @Operation(summary = "Get all categories with filter and page")
@@ -37,7 +37,7 @@ public class CategoryController {
                                                                       @RequestParam("size") int size, @RequestParam("sort") String prop,
                                                                       @RequestParam(value = "direction", required = false, defaultValue = "DESC") Sort.Direction direction) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction,prop));
-        Page<CategoryDTO> response = categoryManager.getAllCategoriesWithFilterAndPage(query,status,pageable);
+        Page<CategoryDTO> response = categoryService.getAllCategoriesWithFilterAndPage(query,status,pageable);
         return ResponseEntity.ok(response);
     }
 
@@ -45,14 +45,14 @@ public class CategoryController {
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Get category list for dropdown menu in frontend")
     public ResponseEntity<List<CategoryDTO>> getAllCategoryForOption(){
-        return ResponseEntity.ok(categoryManager.getAllCategoryList());
+        return ResponseEntity.ok(categoryService.getAllCategoryList());
     }
 
     @PostMapping()
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Create a category in database")
     public ResponseEntity<Response> saveCategory(@Valid @RequestBody CategoryRequest categoryRequest) {
-        CategoryDTO categoryDTO= categoryManager.saveCategory(categoryRequest);
+        CategoryDTO categoryDTO= categoryService.saveCategory(categoryRequest);
         Response response = new DataResponse<>(ResponseMessage.CATEGORY_CREATED_RESPONSE_MESSAGE, true,categoryDTO);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
@@ -62,7 +62,7 @@ public class CategoryController {
     @Operation(summary = "Update category with ID")
     public ResponseEntity<Response> updateCategory(@PathVariable("categoryId") Long id,
                                                       @Valid @RequestBody CategoryUpdateRequest categoryUpdateRequest){
-        CategoryDTO categoryDTO = categoryManager.updateCategory(id,categoryUpdateRequest);
+        CategoryDTO categoryDTO = categoryService.updateCategory(id,categoryUpdateRequest);
         Response response = new DataResponse<>(ResponseMessage.CATEGORY_UPDATED_RESPONSE_MESSAGE, true,categoryDTO);
         return ResponseEntity.ok(response);
     }
@@ -71,7 +71,7 @@ public class CategoryController {
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Remove category with ID")
     public ResponseEntity<Response> removeCategory(@PathVariable("categoryId") Long id){
-        CategoryDTO categoryDTO = categoryManager.removeById(id);
+        CategoryDTO categoryDTO = categoryService.removeById(id);
         Response response = new DataResponse<>(ResponseMessage.CATEGORY_DELETED_RESPONSE_MESSAGE, true,categoryDTO);
         return ResponseEntity.ok(response);
     }
@@ -79,7 +79,7 @@ public class CategoryController {
     @GetMapping("/{categoryId}")
     @Operation(summary = "Get category with ID")
     public ResponseEntity<CategoryDTO> getCategoryById(@PathVariable("categoryId") Long id){
-        CategoryDTO categoryDTO= categoryManager.findCategoryById(id);
+        CategoryDTO categoryDTO= categoryService.findCategoryById(id);
         return ResponseEntity.ok(categoryDTO);
     }
 }
