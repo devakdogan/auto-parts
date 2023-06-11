@@ -8,6 +8,7 @@ import com.ape.entity.dao.ShoppingCartDao;
 import com.ape.entity.dao.ShoppingCartItemDao;
 import com.ape.entity.dao.UserDao;
 import com.ape.entity.dto.UserDTO;
+import com.ape.entity.dto.UserDeleteDTO;
 import com.ape.entity.dto.request.LoginRequest;
 import com.ape.entity.dto.request.RegisterRequest;
 import com.ape.entity.dto.request.UserUpdateRequest;
@@ -170,8 +171,11 @@ public class UserManager implements UserService {
 
     @Override
     public UserEntity getUserByEmail(String email) {
-        return userDao.findByEmail(email).orElseThrow(()->
-                new ResourceNotFoundException(ErrorMessage.USER_NOT_FOUND_MESSAGE));
+        UserEntity user = userDao.findByEmail(email);
+        if (user==null){
+            throw new ResourceNotFoundException(ErrorMessage.USER_NOT_FOUND_MESSAGE);
+        }
+        return user;
     }
 
     @Override
@@ -308,21 +312,7 @@ public class UserManager implements UserService {
         return userMapper.entityToDTO(user);
     }
 
-    @Override
-    public void resetFailedAttempts(UserEntity user) {
-        user.setLoginFailCount(0);
-    }
 
-    @Override
-    public void increaseFailedAttempts(UserEntity user) {
-        int newFailAttempts = user.getLoginFailCount() + 1;
-        user.setLoginFailCount(newFailAttempts);
-    }
-
-    @Override
-    public void lock(UserEntity user) {
-        user.setIsLocked(true);
-    }
 
     @Override
     public long countUserRecords() {
@@ -333,5 +323,22 @@ public class UserManager implements UserService {
     public UserEntity getUserById(Long userId) {
         return userDao.findById(userId).orElseThrow(
                 () -> new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, userId)));
+    }
+
+    @Override
+    public UserDeleteDTO adminRemoveUserById(Long id) {
+        UserEntity user = getUserById(id);
+        user.setIsActive(false);
+        user.setPassword("");
+        Long shoppingCartId=user.getShoppingCart().getId();
+        user.setShoppingCart(null);
+        userDao.save(user);
+        shoppingCartDao.deleteById(shoppingCartId);
+        return userMapper.entityToUserDeleteDTO(user);
+    }
+
+    @Override
+    public List<UserEntity> findUserByRole(RoleType role) {
+        return userDao.findByRole(role);
     }
 }

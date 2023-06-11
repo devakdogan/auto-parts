@@ -9,13 +9,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreditCardDTO {
+public class UserDeleteDTO {
 
-    private Long id;
-    private String title;
-    private String nameOnCard;
-    private String cardNo;
-    private String expireDate;
-    private String cvc;
+    private String firstName;
 
+    private String lastName;
 }

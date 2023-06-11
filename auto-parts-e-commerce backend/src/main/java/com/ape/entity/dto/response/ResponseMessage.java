@@ -11,6 +11,7 @@ public class ResponseMessage {
     public final static String BRAND_CREATE_RESPONSE_MESSAGE= "Brand successfully created";
     public final static String BRAND_DELETE_RESPONSE_MESSAGE= "Brand successfully deleted";
     public final static String BRAND_UPDATE_RESPONSE_MESSAGE= "Brand successfully updated";
+    public final static String CONTACT_MESSAGE_CREATE_RESPONSE = "Message successfully sent";
     public final static String CATEGORY_CREATED_RESPONSE_MESSAGE= "Category successfully created";
     public final static String CATEGORY_UPDATED_RESPONSE_MESSAGE= "Category successfully updated";
     public final static String CATEGORY_DELETED_RESPONSE_MESSAGE= "Category successfully deleted";

@@ -7,6 +7,7 @@ import com.ape.entity.concrete.UserEntity;
 import com.ape.entity.dao.CreditCardDao;
 import com.ape.entity.dto.CreditCardDTO;
 import com.ape.exception.BadRequestException;
+import com.ape.exception.ConflictException;
 import com.ape.exception.ErrorMessage;
 import com.ape.exception.ResourceNotFoundException;
 import com.ape.mapper.CreditCardMapper;
@@ -45,5 +46,16 @@ public class CreditCardManager implements CreditCardService {
             throw new BadRequestException(ErrorMessage.CREDIT_CARD_NOT_FOUND_MESSAGE);
         }
         return creditCardMapper.entityToDTO(creditCard);
+    }
+
+    @Override
+    public void createPaymentInfo(CreditCardEntity creditCard) {
+        List<CreditCardDTO> userCartList = getAllPaymentInfoForAuthUser();
+        for (CreditCardDTO each:userCartList) {
+            if (creditCard.getTitle().equals(each.getTitle())){
+                throw new ConflictException(String.format(ErrorMessage.CREDIT_CARD_TITLE_FOUND_MESSAGE,creditCard.getTitle()));
+            }
+        }
+        creditCardDao.save(creditCard);
     }
 }

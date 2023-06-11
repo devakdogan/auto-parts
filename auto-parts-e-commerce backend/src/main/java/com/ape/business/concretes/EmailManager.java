@@ -3,6 +3,7 @@ package com.ape.business.concretes;
 import com.ape.business.abstracts.EmailService;
 import com.ape.entity.concrete.ImageFileEntity;
 import com.ape.entity.concrete.OrderEntity;
+import com.ape.entity.dto.request.ContactMessageRequest;
 import com.ape.exception.ErrorMessage;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -33,7 +34,7 @@ public class EmailManager implements EmailService {
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage,"UTF-8");
             helper.setText(email,true);
             helper.setTo(to);
-            helper.setSubject("Welcome to the Auto Parts");
+            helper.setSubject("Auto Parts GmbH");
             helper.setFrom(mailAddress);
             mailSender.send(mimeMessage);
         }catch (MessagingException e){
@@ -532,7 +533,7 @@ public class EmailManager implements EmailService {
                 "                  <tr>\n" +
                 "                    <td class=\"content-cell\">\n" +
                 "                      <div class=\"f-fallback\">\n" +
-                "                        <h1>Welcome + name +!</h1>\n" +
+                "                        <h1>Welcome "+ firstName +"!</h1>\n" +
                 "                        <p>\n" +
                 "                          We're excited to have you get started. First, you need to\n" +
                 "                  confirm your account. Just press the button below.\n" +
@@ -756,6 +757,55 @@ public class EmailManager implements EmailService {
                 "      </div>\n" +
                 "    </div>";
     }
+    public String buildContactMessage(String adminName,ContactMessageRequest contactMessageRequest) {
+        return "<!DOCTYPE html>\n" +
+                "<html>\n" +
+                "<head>\n" +
+                "  <meta charset=\"UTF-8\">\n" +
+                "  <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n" +
+                "  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
+                "  <title>Mail Template</title>\n" +
+                "  <style>\n" +
+                "    body {\n" +
+                "      font-family: Arial, sans-serif;\n" +
+                "      line-height: 1.6;\n" +
+                "      color: #333;\n" +
+                "    }\n" +
+                "\n" +
+                "    .container {\n" +
+                "      max-width: 600px;\n" +
+                "      margin: 0 auto;\n" +
+                "      padding: 20px;\n" +
+                "    }\n" +
+                "\n" +
+                "    h1 {\n" +
+                "      font-size: 24px;\n" +
+                "      font-weight: bold;\n" +
+                "      margin-bottom: 20px;\n" +
+                "    }\n" +
+                "\n" +
+                "    p {\n" +
+                "      margin-bottom: 15px;\n" +
+                "    }\n" +
+                "\n" +
+                "    a {\n" +
+                "      color: #007bff;\n" +
+                "      text-decoration: none;\n" +
+                "    }\n" +
+                "  </style>\n" +
+                "</head>\n" +
+                "<body>\n" +
+                "  <div class=\"container\">\n" +
+                "    <h1>Dear Admin "+adminName+",</h1>\n" +
+                "    <h3>You have mail from user "+contactMessageRequest.getSubject()+" about "+contactMessageRequest.getSubject()+"</h3>\n" +
+                "    <p>"+contactMessageRequest.getBody()+"</p>\n" +
+                "    <hr>\n" +
+                "    <p>If you wish to respond to the user, the email address is provided below:</p>\n" +
+                "    <p> <a href=\"mailto:"+contactMessageRequest.getEmail()+"\">"+contactMessageRequest.getEmail()+"</a></p>\n" +
+                "  </div>\n" +
+                "</body>\n" +
+                "</html>\n";
+    }
 
     private String orderItemToTable(OrderEntity order){
         StringBuilder orderItems = new StringBuilder();
@@ -776,4 +826,5 @@ public class EmailManager implements EmailService {
         }
         return orderItems.toString();
     }
+
 }

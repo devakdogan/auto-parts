@@ -3,6 +3,7 @@ package com.ape.mapper;
 import com.ape.entity.dto.UserDTO;
 import com.ape.entity.concrete.RoleEntity;
 import com.ape.entity.concrete.UserEntity;
+import com.ape.entity.dto.UserDeleteDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -17,6 +18,7 @@ public interface UserMapper {
     UserDTO entityToDTO(UserEntity user);
 
     List<UserDTO> entityListToDTOList(List<UserEntity> userList);
+    UserDeleteDTO entityToUserDeleteDTO(UserEntity user);
 
     default Set<String> getRolesAsString(Set<RoleEntity> roles){
         return roles.stream().map(role -> role.getRoleName().toString()).collect(Collectors.toSet());

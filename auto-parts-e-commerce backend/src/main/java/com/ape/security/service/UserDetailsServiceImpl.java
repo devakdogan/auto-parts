@@ -16,8 +16,22 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 
     @Override
     public UserDetails loadUserByUsername(String  email) throws UsernameNotFoundException {
-        UserEntity user =  userDao.findByEmail(email).orElseThrow(()->
-                new ResourceNotFoundException(ErrorMessage.USER_NOT_FOUND_MESSAGE));
+        UserEntity user =  userDao.findByEmail(email);
         return new UserDetailsImpl(user);
+    }
+
+    public static void resetFailedAttempts(UserEntity user) {
+        user.setLoginFailCount(0);
+    }
+
+
+    public void increaseFailedAttempts(UserEntity user) {
+        int newFailAttempts = user.getLoginFailCount() + 1;
+        user.setLoginFailCount(newFailAttempts);
+    }
+
+
+    public void lock(UserEntity user) {
+        user.setIsLocked(true);
     }
 }

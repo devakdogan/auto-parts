@@ -9,4 +9,5 @@ public interface CreditCardService {
     CreditCardEntity getCreditCardById(Long creditCardId);
     List<CreditCardDTO> getAllPaymentInfoForAuthUser();
     CreditCardDTO getAuthUserCreditCardInfoWithID(Long creditCardId);
+    void createPaymentInfo(CreditCardEntity creditCard);
 }
