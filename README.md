@@ -95,7 +95,10 @@ Sepette ürün quantitysi güncellenebilir.
 
  
  ödemeden sonra böyle bir form geliyor.
+ 
  ![image](https://github.com/devakdogan/auto-parts/assets/106448958/aa72322d-993f-4b0c-bef2-848b4a534ec5)
+ 
+ 
  Aynı zamanda bir de mail
  ![image](https://github.com/devakdogan/auto-parts/assets/106448958/d87f9f5c-306f-4a78-afda-d0a86acd725f)
  
