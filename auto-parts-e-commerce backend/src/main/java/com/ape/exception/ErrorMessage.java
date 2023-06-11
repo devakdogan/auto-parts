@@ -15,6 +15,7 @@ public class ErrorMessage {
     // ****** PRODUCT ******
     public final static String PRODUCT_NOT_FOUND_MESSAGE = "Product with id %d not found";
     public final static String PRODUCT_OUT_OF_STOCK_MESSAGE = "The product with id %d is out of stock";
+    public final static String PRODUCT_USED_BY_ORDER_MESSAGE = "Product couldn't be deleted while it have order";
     // ****** EMAIL ******
     public final static String EMAIL_ALREADY_CONFIRMED_MESSAGE = "Email already confirmed";
     public final static String EMAIL_NOT_CONFIRMED_MESSAGE = "Email %s need to be confirmed";
@@ -39,4 +40,5 @@ public class ErrorMessage {
     public static final String UUID_NOT_FOUND_MESSAGE = "Uuid could not found with given id";
     // ****** CREDIT_CARD ******
     public static final String CREDIT_CARD_NOT_FOUND_MESSAGE = "Credit card not found";
+    public static final String CREDIT_CARD_TITLE_FOUND_MESSAGE = "Credit card with title %s already exist";
 }

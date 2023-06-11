@@ -25,11 +25,11 @@ public class CreditCardEntity {
     @Column(length = 50,nullable=false)
     private String nameOnCard;
 
-    @Column(length = 16,nullable = false)
+    @Column(length = 19,nullable = false)
     private String cardNumber;
 
     @Column(nullable = false)
-    private LocalDate expirationDate;
+    private String expirationDate;
 
     @Column(length = 3,nullable = false)
     private String cvc;

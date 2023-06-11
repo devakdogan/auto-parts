@@ -2,6 +2,7 @@ package com.ape.controller;
 
 import com.ape.business.abstracts.UserService;
 import com.ape.entity.dto.UserDTO;
+import com.ape.entity.dto.UserDeleteDTO;
 import com.ape.entity.dto.request.UserUpdateRequest;
 import com.ape.entity.dto.response.DataResponse;
 import com.ape.entity.dto.response.Response;
@@ -71,6 +72,15 @@ public class UserController {
     public ResponseEntity<Response> updateUser(@Valid @RequestBody UserUpdateRequest userUpdateRequest) {
         UserDTO userDTO= userService.updateUser(userUpdateRequest);
         Response response = new DataResponse<>(ResponseMessage.USER_UPDATE_RESPONSE_MESSAGE, true,userDTO);
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/admin/{userId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Admin removing user with ID")
+    public ResponseEntity<Response> deleteUser(@PathVariable("userId") Long id){
+        UserDeleteDTO userDeleteDTO= userService.adminRemoveUserById(id);
+        Response response = new DataResponse<>(ResponseMessage.USER_DELETE_RESPONSE_MESSAGE, true,userDeleteDTO);
         return ResponseEntity.ok(response);
     }
 }

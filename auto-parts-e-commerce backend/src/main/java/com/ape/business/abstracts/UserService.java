@@ -1,6 +1,7 @@
 package com.ape.business.abstracts;
 
 import com.ape.entity.dto.UserDTO;
+import com.ape.entity.dto.UserDeleteDTO;
 import com.ape.entity.dto.request.LoginRequest;
 import com.ape.entity.dto.request.RegisterRequest;
 import com.ape.entity.dto.request.UserUpdateRequest;
@@ -23,9 +24,9 @@ public interface UserService {
     LoginResponse loginUser(String cartUUID, LoginRequest loginRequest);
     List<UserDTO> getAllUsers();
     UserDTO updateUser(UserUpdateRequest userUpdateRequest);
-    void resetFailedAttempts(UserEntity user);
-    void increaseFailedAttempts(UserEntity user);
-    void lock(UserEntity user);
     long countUserRecords();
     UserEntity getUserById(Long userId);
+    UserDeleteDTO adminRemoveUserById(Long id);
+    List<UserEntity> findUserByRole(RoleType role);
+
 }

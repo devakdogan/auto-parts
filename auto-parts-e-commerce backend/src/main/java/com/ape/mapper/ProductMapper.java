@@ -34,6 +34,7 @@ public interface ProductMapper {
     @Mapping(target="images", ignore=true)
     @Mapping(target = "slug",ignore = true)
     @Mapping(target = "updateAt",ignore = true)
+    @Mapping(target = "discountedPrice",ignore = true)
     ProductEntity productUpdateRequestToProduct(ProductUpdateRequest productUpdateRequest);
 
     @Named("getProductId")

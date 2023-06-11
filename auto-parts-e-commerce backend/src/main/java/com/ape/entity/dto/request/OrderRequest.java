@@ -28,9 +28,9 @@ public class OrderRequest {
     @NotBlank
     private String nameOnCard;
     @NotBlank
-    private String cardNumber;
+    private String cardNo;
     @NotBlank
-    private LocalDate expirationDate;
+    private String expireDate;
     @NotBlank
     private String cvc;
     private String title;

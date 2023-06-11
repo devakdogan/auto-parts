@@ -5,6 +5,7 @@ import com.ape.entity.enums.RoleType;
 import lombok.NonNull;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -14,7 +15,7 @@ import java.util.Optional;
 @Repository
 public interface UserDao extends JpaRepository<UserEntity,Long> {
     @EntityGraph(attributePaths = "roles")
-    Optional<UserEntity> findByEmail(String email);
+    UserEntity findByEmail(String email);
 
     Boolean existsByEmail(String email);
 
@@ -31,4 +32,16 @@ public interface UserDao extends JpaRepository<UserEntity,Long> {
 
     @Query("select u from UserEntity u inner join u.roles r where  r.roleName = :role")
     List<UserEntity> findByRole(@Param("role") RoleType roleType);
+
+    @Modifying
+    @Query("Update UserEntity SET loginFailCount = 0 where email = :email")
+    void resetFailedAttempts(@Param("email")String email);
+
+    @Modifying
+    @Query("Update UserEntity SET loginFailCount = loginFailCount+1 where email = :email")
+    void increaseFailedAttempts(@Param("email")String email);
+
+    @Modifying
+    @Query("Update UserEntity SET isLocked = true where email = :email")
+    void lock(@Param("email")String email);
 }

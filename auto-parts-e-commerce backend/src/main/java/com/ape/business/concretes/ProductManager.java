@@ -1,6 +1,6 @@
 package com.ape.business.concretes;
 
-import com.ape.business.abstracts.ProductService;
+import com.ape.business.abstracts.*;
 import com.ape.entity.dao.BrandDao;
 import com.ape.entity.dao.ProductDao;
 import com.ape.entity.dto.ProductDTO;
@@ -11,6 +11,7 @@ import com.ape.entity.enums.BrandStatus;
 import com.ape.entity.enums.CategoryStatus;
 import com.ape.entity.enums.ProductStatus;
 import com.ape.entity.enums.RoleType;
+import com.ape.exception.BadRequestException;
 import com.ape.exception.ConflictException;
 import com.ape.exception.ResourceNotFoundException;
 import com.ape.mapper.ProductMapper;
@@ -39,11 +40,11 @@ import java.util.stream.Collectors;
 public class ProductManager implements ProductService {
 
     private final EntityManager entityManager;
-    private final CategoryManager categoryManager;
-    private final ImageManager imageManager;
+    private final CategoryService categoryService;
+    private final ImageService imageService;
     private final ProductMapper productMapper;
-    private final UserManager userManager;
-    private final RoleManager roleManager;
+    private final UserService userService;
+    private final RoleService roleService;
     private final ProductDao productDao;
     private final UniqueIdGenerator uniqueIdGenerator;
     private final BrandDao brandDao;
@@ -86,8 +87,8 @@ public class ProductManager implements ProductService {
             }
         }
         try {
-            RoleEntity role = roleManager.findByRoleName(RoleType.ROLE_ADMIN);
-            boolean isAdmin = userManager.getCurrentUser().getRoles().stream().anyMatch(r->r.equals(role));
+            RoleEntity role = roleService.findByRoleName(RoleType.ROLE_ADMIN);
+            boolean isAdmin = userService.getCurrentUser().getRoles().stream().anyMatch(r->r.equals(role));
             if (isAdmin) {
                 if (status != null){
                     predicates.add(cb.equal(root.get("status"),status));
@@ -135,8 +136,8 @@ public class ProductManager implements ProductService {
     public ProductDTO getProductById(Long id) {
         ProductEntity product = null;
         try {
-            RoleEntity role = roleManager.findByRoleName(RoleType.ROLE_ADMIN);
-            boolean isAdmin = userManager.getCurrentUser().getRoles().stream().anyMatch(r->r.equals(role));
+            RoleEntity role = roleService.findByRoleName(RoleType.ROLE_ADMIN);
+            boolean isAdmin = userService.getCurrentUser().getRoles().stream().anyMatch(r->r.equals(role));
             if (isAdmin){
                 product = findProductById(id);
             }else throw new ResourceNotFoundException(String.format(ErrorMessage.PRODUCT_NOT_FOUND_MESSAGE,id));
@@ -156,7 +157,7 @@ public class ProductManager implements ProductService {
         for (String each:productRequest.getImageId()) {
             ProductEntity foundProduct = productDao.findProductByImageId(each);
             if (foundProduct==null){
-                imageFiles.add(imageManager.getImageById(each));
+                imageFiles.add(imageService.getImageById(each));
             }else{
                 throw new ConflictException(ErrorMessage.IMAGE_USED_MESSAGE);
             }
@@ -175,7 +176,7 @@ public class ProductManager implements ProductService {
         }
         BrandEntity brand = brandDao.findById(productRequest.getBrandId()).orElseThrow(()->
                 new ResourceNotFoundException(String.format(ErrorMessage.BRAND_NOT_FOUND_MESSAGE,productRequest.getBrandId())));;
-        CategoryEntity category = categoryManager.getCategoryById(productRequest.getCategoryId());
+        CategoryEntity category = categoryService.getCategoryById(productRequest.getCategoryId());
 
         ProductEntity product = productMapper.productRequestToProduct(productRequest);
         product.setSku(uniqueIdGenerator.generateUniqueId(8));
@@ -200,7 +201,7 @@ public class ProductManager implements ProductService {
         for (String each:productUpdateRequest.getImages()) {
             ProductEntity foundProduct = productDao.findProductByImageId(each);
             if (foundProduct==null){
-                imageFiles.add(imageManager.getImageById(each));
+                imageFiles.add(imageService.getImageById(each));
             }else{
                 throw new ConflictException(ErrorMessage.IMAGE_USED_MESSAGE);
             }
@@ -219,26 +220,26 @@ public class ProductManager implements ProductService {
         }
         BrandEntity brand = brandDao.findById(productUpdateRequest.getBrandId()).orElseThrow(()->
                 new ResourceNotFoundException(String.format(ErrorMessage.BRAND_NOT_FOUND_MESSAGE,id)));
-        CategoryEntity category = categoryManager.getCategoryById(productUpdateRequest.getCategoryId());
+        CategoryEntity category = categoryService.getCategoryById(productUpdateRequest.getCategoryId());
+        long tempId= product.getId();
 
-
-        product = productMapper.productUpdateRequestToProduct(productUpdateRequest);
-        product.setTitle(productUpdateRequest.getTitle());
-        product.setShortDesc(productUpdateRequest.getShortDesc());
-        product.setLongDesc(productUpdateRequest.getLongDesc());
-        product.setPrice(productUpdateRequest.getPrice());
-        product.setTax(productUpdateRequest.getTax());
-        product.setDiscount(productUpdateRequest.getDiscount());
-        product.setStockAmount(productUpdateRequest.getStockAmount());
-        product.setStockAlarmLimit(productUpdateRequest.getStockAlarmLimit());
+        product.setTitle( productUpdateRequest.getTitle() );
+        product.setShortDesc( productUpdateRequest.getShortDesc() );
+        product.setLongDesc( productUpdateRequest.getLongDesc() );
+        product.setPrice( productUpdateRequest.getPrice() );
+        product.setTax( productUpdateRequest.getTax() );
+        product.setDiscount( productUpdateRequest.getDiscount() );
+        product.setStockAmount( productUpdateRequest.getStockAmount() );
+        product.setStockAlarmLimit( productUpdateRequest.getStockAlarmLimit() );
         product.setSlug(URLEncoder.encode(productUpdateRequest.getTitle(), StandardCharsets.UTF_8));
-        product.setStatus(productUpdateRequest.getStatus());
-        product.setWidth(productUpdateRequest.getWidth());
-        product.setLength(productUpdateRequest.getLength());
-        product.setHeight(productUpdateRequest.getHeight());
-        product.setUpdateAt( LocalDateTime.now());
+        product.setStatus( productUpdateRequest.getStatus() );
+        product.setWidth( productUpdateRequest.getWidth() );
+        product.setLength( productUpdateRequest.getLength() );
+        product.setHeight( productUpdateRequest.getHeight() );
+        product.setUpdateAt( LocalDateTime.now() );
         product.setBrand(brand);
         product.setCategory(category);
+        product.setImages(imageFiles);
         product.setDiscountedPrice(product.getPrice()*(100-product.getDiscount())/100);
         productDao.save(product);
 
@@ -248,13 +249,35 @@ public class ProductManager implements ProductService {
     @Override
     @Transactional
     public ProductDTO removeById(Long id) {
-        return null;
+        ProductEntity product = findProductById(id);
+
+        List<ProductEntity> products = productDao.checkOrderItemsByID(id);
+        if (products.size()>0){
+            throw new BadRequestException(ErrorMessage.PRODUCT_USED_BY_ORDER_MESSAGE);
+        }
+        ProductDTO productDTO =  productMapper.entityToDTO(product);
+        productDao.deleteById(id);
+        return productDTO;
     }
 
     @Override
     @Transactional
     public void removeProductImageByImageId(String id) {
-
+        ProductEntity product = productDao.findProductByImageId(id);
+        imageService.removeById(id);
+        boolean hasShowcase = false;
+        if (product.getImages().size()>0){
+            for (ImageFileEntity each:product.getImages()) {
+                if (each.isShowcase()){
+                    hasShowcase = true;
+                    break;
+                }
+            }
+            if(!hasShowcase){
+                ImageFileEntity imageFile = product.getImages().stream().findFirst().orElse(null);
+                imageFile.setShowcase(true);
+            }
+        }
     }
     public ProductEntity findProductById(Long id){
         return productDao.findProductById(id).orElseThrow(()->

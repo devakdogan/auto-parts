@@ -48,6 +48,7 @@ public class OrderManager implements OrderService {
     private final UniqueIdGenerator uniqueIdGenerator;
     private final EmailManager emailManager;
     private final EmailService emailService;
+    private final CreditCardService creditCardService;
 
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -226,6 +227,16 @@ public class OrderManager implements OrderService {
         order.getPayments().add(payment);
         orderDao.save(order);
 
+        if (orderRequest.isSaveCart()){
+            CreditCardEntity creditCard = new CreditCardEntity();
+            creditCard.setNameOnCard(orderRequest.getNameOnCard());
+            creditCard.setCardNumber(orderRequest.getCardNo());
+            creditCard.setExpirationDate(orderRequest.getExpireDate());
+            creditCard.setTitle(orderRequest.getTitle());
+            creditCard.setCvc(orderRequest.getCvc());
+            creditCard.setUser(user);
+            creditCardService.createPaymentInfo(creditCard);
+        }
 
         emailService.send(
                 user.getEmail(),
