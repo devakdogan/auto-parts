@@ -40,7 +40,7 @@ public class ProductDTO {
 
     private String slug;
 
-    private Set<ShowcaseImageDTO> image;
+    private Set<ShowcaseImageDTO> images;
 
     private ProductStatus status;
 

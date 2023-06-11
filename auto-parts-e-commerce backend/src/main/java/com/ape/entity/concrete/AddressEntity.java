@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 
 @Entity
-@Table(name="t_user_address")
+@Table(name="t_address")
 public class AddressEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,9 +49,9 @@ public class AddressEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    @OneToMany(mappedBy = "invoiceAddressEntity")
+    @OneToMany(mappedBy = "invoiceAddress")
     private List<OrderEntity> ordersInvoice = new ArrayList<>();
 
-    @OneToMany(mappedBy = "shippingAddressEntity")
+    @OneToMany(mappedBy = "shippingAddress")
     private List<OrderEntity> ordersShipping = new ArrayList<>();
 }

@@ -1,6 +1,8 @@
 package com.ape.business.concretes;
 
 import com.ape.business.abstracts.EmailService;
+import com.ape.entity.concrete.ImageFileEntity;
+import com.ape.entity.concrete.OrderEntity;
 import com.ape.exception.ErrorMessage;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -12,6 +14,9 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -500,7 +505,7 @@ public class EmailManager implements EmailService {
                 "              <td class=\"email-masthead\">\n" +
                 "                <a href=\"https://localhost:3000\"\n" +
                 "                  ><img\n" +
-                "                    src=\"https://www.linkpicture.com/q/AUTO_PARTS-removebg-preview.png\"\n" +
+                "                    src=\"https://www.linkpicture.com/q/auto-parts.png\"\n" +
                 "                    alt=\"\"\n" +
                 "                    style=\"height: auto; max-width: 100%;\"\n" +
                 "                    \n" +
@@ -527,7 +532,7 @@ public class EmailManager implements EmailService {
                 "                  <tr>\n" +
                 "                    <td class=\"content-cell\">\n" +
                 "                      <div class=\"f-fallback\">\n" +
-                "                        <h1>Welcome "+ firstName +"!</h1>\n" +
+                "                        <h1>Welcome + name +!</h1>\n" +
                 "                        <p>\n" +
                 "                          We're excited to have you get started. First, you need to\n" +
                 "                  confirm your account. Just press the button below.\n" +
@@ -555,7 +560,9 @@ public class EmailManager implements EmailService {
                 "                                <tr>\n" +
                 "                                  <td align=\"center\">\n" +
                 "                                    <a\n" +
-                "                                      href="+link+"\n" +
+                "                                      href=\""+link+"\"\n" +
+                "                                      link\n" +
+                "                                      +\n" +
                 "                                      class=\"f-fallback button button--green\"\n" +
                 "                                      target=\"_blank\"\n" +
                 "                                      >Confirm Account</a\n" +
@@ -571,9 +578,8 @@ public class EmailManager implements EmailService {
                 "                          your browser:\n" +
                 "                        </p>\n" +
                 "                            <p style=\"margin: 0\">\n" +
-                "                              <a href="+link+"\n " +
-                "                               target=\"_blank\" style=\"color: #e63946\"\n" +
-                "                                ></a\n" +
+                "                              <a href=\"#\" target=\"_blank\" style=\"color: #e63946\"\n" +
+                "                                >"+link+"</a\n" +
                 "                              >\n" +
                 "                            </p>\n" +
                 "                        <!-- Sub copy -->\n" +
@@ -620,5 +626,154 @@ public class EmailManager implements EmailService {
                 "    </table>\n" +
                 "  </body>\n" +
                 "</html>\n";
+    }
+
+    public String buildOrderMail(OrderEntity order) {
+        List<String> shippingDetailList = Arrays.asList(order.getShippingDetails().split(":"));
+        return "<div style=\"display: flex; justify-content: center; align-items: center;\">\n" +
+                "      <div>\n" +
+                "        <div>\n" +
+                "          <div>\n" +
+                "            <p style=\"text-align: center\">\n" +
+                "             <div style=\"text-align: center\">\n" +
+                "                <a href=\"https://localhost:3000\" target=\"_blank\">\n" +
+                "                  <img\n" +
+                "                src=\"https://www.linkpicture.com/q/auto-parts.png\"\n" +
+                "                alt=\"\"\n" +
+                "                style=\"width: 200px; max-width: 100%; height: auto;\"\n" +
+                "              />\n" +
+                "                </a>\n" +
+                "              </div>\n"+
+                "            </p>\n" +
+                "            <p\n" +
+                "              style=\"\n" +
+                "                color: rgb(29, 53, 87);\n" +
+                "                font-size: 1.25rem;\n" +
+                "                font-weight: bold;\n" +
+                "                margin-bottom: 1rem;\n" +
+                "                text-align: center;\n" +
+                "              \"\n" +
+                "            >\n" +
+                "              Your order has been placed successfully!\n" +
+                "            </p>\n" +
+                "            <p style=\"font-size: 1.125rem; text-align: center\">\n" +
+                "              <b>Order Number:</b>"+order.getCode() +"\n" +
+                "            </p>\n" +
+                "          </div>\n" +
+                "          <div>\n" +
+                "            <table style=\"margin-left: auto; margin-right: auto; max-width: 100vh;\">\n" +
+                "              <tr>\n" +
+                "                <td><b>Date</b></td>\n" +
+                "                <td>:</td>\n" +
+                "                <td>"+order.getCreateAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))+"</td>\n" +
+                "              </tr>\n" +
+                "              <tr>\n" +
+                "                <td><b>Time </b></td>\n" +
+                "                <td>:</td>\n" +
+                "                <td>"+order.getCreateAt().format(DateTimeFormatter.ofPattern("HH:mm:ss"))+"</td>\n" +
+                "              </tr>\n" +
+                "              <tr>\n" +
+                "                <td><b>Shipping Address </b></td>\n" +
+                "                <td>:</td>\n" +
+                "                <td>"+order.getShippingAddress().getAddress()+"</td>\n" +
+                "              </tr>\n" +
+                "              <tr>\n" +
+                "                <td><b>Invoice Address </b></td>\n" +
+                "                <td>:</td>\n" +
+                "                <td>"+order.getInvoiceAddress().getAddress()+"</td>\n" +
+                "              </tr>\n" +
+                "              <tr>\n" +
+                "                <td><b>Contact Name </b></td>\n" +
+                "                <td>:</td>\n" +
+                "                <td>"+order.getContactName()+"</td>\n" +
+                "              </tr>\n" +
+                "              <tr>\n" +
+                "                <td><b>Contact Phone Number </b></td>\n" +
+                "                <td>:</td>\n" +
+                "                <td>"+order.getContactPhone()+"</td>\n" +
+                "              </tr>\n" +
+                "              <tr>\n" +
+                "                <td><b>Cargo Company </b></td>\n" +
+                "                <td>:</td>\n" +
+                "                <td>"+shippingDetailList.get(0)+"</td>\n" +
+                "              </tr>\n" +
+                "              <tr>\n" +
+                "                <td><b>Shipping Tracking Number </b></td>\n" +
+                "                <td>:</td>\n" +
+                "                <td>"+shippingDetailList.get(shippingDetailList.size()-1)+"</td>\n" +
+                "              </tr>\n" +
+                "            </table>\n" +
+                "          </div>\n" +
+                "          <div style=\"margin-top: 2rem\">\n" +
+                "            <table>\n" +
+                "              <thead style=\"background-color: rgb(29, 53, 87); color: white;\">\n" +
+                "                <tr>\n" +
+                "                  <th style=\"width: 10vh;\"></th>\n" +
+                "                  <th style=\"text-align: left; width: 60vh; text-align: center\">Product</th>\n" +
+                "                  <th style=\"text-align: center;  width: 15vh;\">Amount</th>\n" +
+                "                  <th style=\"white-space: nowrap; text-align: right; width: 15vh; text-align: center\">\n" +
+                "                    Sub Total\n" +
+                "                  </th>\n" +
+                "                </tr>\n" +
+                "              </thead>\n" +
+                "              <tbody>" + orderItemToTable(order) +"</tbody>\n" +
+                "              <tfoot>\n" +
+                "                <tr>\n" +
+                "                  <td colspan=\"3\" style=\"text-align: right\">Sub Total :</td>\n" +
+                "                  <td style=\"text-align: right\"><b>"+order.getSubTotal()+"$</b></td>\n" +
+                "                </tr>\n" +
+                "                <tr>\n" +
+                "                  <td colspan=\"3\" style=\"text-align: right\">Discount :</td>\n" +
+                "                  <td style=\"text-align: right\"><b>"+order.getDiscount()+"$</b></td>\n" +
+                "                </tr>\n" +
+                "                <tr>\n" +
+                "                  <td colspan=\"3\" style=\"text-align: right\">Tax :</td>\n" +
+                "                  <td style=\"text-align: right\"><b>"+order.getTax()+"$</b></td>\n" +
+                "                </tr>\n" +
+                "                <tr>\n" +
+                "                  <td colspan=\"3\" style=\"text-align: right\">\n" +
+                "                    <b>Total Amount :</b>\n" +
+                "                  </td>\n" +
+                "                  <td style=\"text-align: right\"><b>"+order.getGrandTotal()+"$</b></td>\n" +
+                "                </tr>\n" +
+                "              </tfoot>\n" +
+                "            </table>\n" +
+                "          </div>\n" +
+                "          <p style=\"font-size: 1.125rem; text-align: center\">\n" +
+                "            Thank you for shopping with us!\n" +
+                "          </p>\n" +
+                "           <table style=\"text-align: center; margin-left: auto; margin-right: auto\">\n" +
+                "                  <tr>\n" +
+                "                    <td class=\"content-cell\" align=\"center\">\n" +
+                "                      <p class=\"f-fallback sub align-center\">\n" +
+                "                        [Auto Parts, GmbH]\n" +
+                "                        <br />DE 40474 Düsseldorf<br />Felix-Klein-Straße 1, Germany\n" +
+                "                      </p>\n" +
+                "                    </td>\n" +
+                "                  </tr>\n" +
+                "          </table>\n" +
+                "        </div>\n" +
+                "      </div>\n" +
+                "    </div>";
+    }
+
+    private String orderItemToTable(OrderEntity order){
+        StringBuilder orderItems = new StringBuilder();
+        for (int i = 0; i < order.getOrderItems().size(); i++) {
+            String showcaseImage = order.getOrderItems().get(i).getProduct().getImages().stream().filter(ImageFileEntity::isShowcase).findFirst().get().getId();
+            orderItems.append("<tr>")
+                    .append("<td style=\"text-align: center;\">\n" +
+                            "                    <img\n" +
+                            "                      src=\"https://localhost:8080/image/display/"+showcaseImage+"\"\n" +
+                            "                      alt=\"3\"\n" +
+                            "                      width=\"50vh\"\n" +
+                            "                    />\n" +
+                            "                  </td>")
+                    .append("<td style=\"text-align: left; padding-left: 1rem\">"+ order.getOrderItems().get(i).getProduct().getTitle() +"</td>")
+                    .append("<td style=\"text-align: center\">"+order.getOrderItems().get(i).getQuantity()+"</td>")
+                    .append("<td style=\"text-align: right\">"+order.getOrderItems().get(i).getSubTotal()+"</td>")
+                    .append("</tr>");
+        }
+        return orderItems.toString();
     }
 }

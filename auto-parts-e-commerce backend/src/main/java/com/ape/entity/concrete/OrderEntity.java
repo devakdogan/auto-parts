@@ -75,13 +75,13 @@ public class OrderEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private UserEntity userEntity;
+    private UserEntity user;
 
     @ManyToOne
     @JoinColumn(name = "invoice_address_id")
-    private AddressEntity invoiceAddressEntity;
+    private AddressEntity invoiceAddress;
 
     @ManyToOne
     @JoinColumn(name = "shipping_address_id")
-    private AddressEntity shippingAddressEntity;
+    private AddressEntity shippingAddress;
 }

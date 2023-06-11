@@ -27,6 +27,7 @@ public class ResponseMessage {
     public final static  String ORDER_UPDATE_RESPONSE="Order successfully updated";
     public final static String ADDRESS_CREATED_RESPONSE_MESSAGE= "Address successfully created";
     public final static String ADDRESS_DELETE_RESPONSE_MESSAGE= "Address successfully deleted";
+    public final static String ADDRESS_UPDATE_RESPONSE_MESSAGE= "Address successfully updated";
     public final static  String COUNT_OF_ALL_RECORDS_RESPONSE="All records count successfully retrieved.";
 
 

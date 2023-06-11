@@ -11,7 +11,9 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -68,6 +70,13 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "user",orphanRemoval = true)
     private Set<ConfirmationTokenEntity> confirmationToken = new HashSet<>();
+
+    @OneToMany(orphanRemoval = true)
+    @JoinColumn(name = "user_id")
+    private List<TransactionEntity> transactions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<OrderEntity> orders = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
     private ShoppingCartEntity shoppingCart;
