@@ -1,5 +1,6 @@
 package com.ape.business.concretes;
 
+import com.ape.business.abstracts.ProductService;
 import com.ape.business.abstracts.ShoppingCartService;
 import com.ape.entity.concrete.ProductEntity;
 import com.ape.entity.concrete.ShoppingCartItemEntity;
@@ -28,7 +29,7 @@ public class ShoppingCartManager implements ShoppingCartService {
     private final ShoppingCartDao shoppingCartDao;
     private final ShoppingCartMapper shoppingCartMapper;
     private final ShoppingCartItemMapper shoppingCartItemMapper;
-    private final ProductManager productManager;
+    private final ProductService productService;
     private final ShoppingCartItemDao shoppingCartItemDao;
     private final DiscountCalculator discountCalculator;
 
@@ -46,7 +47,7 @@ public class ShoppingCartManager implements ShoppingCartService {
 
         Double totalPrice;
 
-        ProductEntity product = productManager.findProductById(shoppingCartRequest.getProductId());
+        ProductEntity product = productService.findProductById(shoppingCartRequest.getProductId());
         ShoppingCartItemEntity foundItem = shoppingCartItemDao.findByProductIdAndShoppingCartCartUUID(product.getId(), shoppingCart.getCartUUID());
         ShoppingCartItemEntity shoppingCartItem = null;
         if (shoppingCartRequest.getQuantity() > product.getStockAmount()){
@@ -104,7 +105,7 @@ public class ShoppingCartManager implements ShoppingCartService {
     public ShoppingCartItemDTO changeItemQuantity(String cartUUID, Long productId, String op) {
         ShoppingCartEntity shoppingCart = shoppingCartDao.findByCartUUID(cartUUID).orElseThrow(()->
                 new ResourceNotFoundException(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE));
-        ProductEntity product = productManager.findProductById(productId);
+        ProductEntity product = productService.findProductById(productId);
         ShoppingCartItemEntity foundItem = shoppingCartItemDao.findByProductIdAndShoppingCartCartUUID(product.getId(),shoppingCart.getCartUUID());
         switch (op){
             case "increase":
