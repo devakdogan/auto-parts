@@ -24,7 +24,7 @@ public class ContactMessageRequest {
     private String subject;
 
 
-    @Size(min=20,max=200, message="Your body'${validatedValue}' must be between {min} and {max} chars long")
+    @Size(min=20,max=1000, message="Your body'${validatedValue}' must be between {min} and {max} chars long")
     @NotBlank(message="Please  provide message body")
     private String body;
 

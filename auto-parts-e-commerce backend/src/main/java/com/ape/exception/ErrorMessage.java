@@ -3,6 +3,7 @@ package com.ape.exception;
 public class ErrorMessage {
     // ****** USER ******
     public final static String USER_NOT_FOUND_MESSAGE = "Email or password doesn't matched.";
+    public final static String PASSWORD_NOT_MATCHED = "Your passwords are not matched";
     public final static String PRINCIPAL_NOT_FOUND_MESSAGE= "User not found";
     // ****** BRAND ******
     public final static String BRAND_NOT_FOUND_MESSAGE = "Brand id: %d not found";

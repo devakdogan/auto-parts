@@ -248,8 +248,59 @@ public class OrderManager implements OrderService {
     }
 
     @Override
-    public PageImpl<OrderDTO> getOrdersWithUserIdAndPage(Long userId, String startDate, String endDate, List<OrderStatus> status, Pageable pageable) {
-        return null;
+    public PageImpl<OrderDTO> getOrdersWithUserIdAndPage(Long userId, String date1, String date2, List<OrderStatus> status, Pageable pageable) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<OrderEntity> criteriaQuery = cb.createQuery(OrderEntity.class);
+        Root<OrderEntity> root = criteriaQuery.from(OrderEntity.class);
+
+        List<Predicate> predicates = new ArrayList<>();
+        Predicate finalPredicate = null;
+
+        predicates.add(cb.equal(root.get("user").get("id"),userId));
+        if (date1 != null && date2 != null){
+            LocalDateTime startDate = LocalDate.parse(date1, formatter).atStartOfDay();
+            LocalDateTime endDate = LocalDate.parse(date2, formatter).atStartOfDay();
+            predicates.add(cb.between(root.get("createAt"),startDate,endDate));
+        }else{
+            if (date1 != null){
+                LocalDateTime startDate = LocalDate.parse(date1, formatter).atStartOfDay();
+                predicates.add(cb.greaterThan(root.get("createAt"),startDate));
+            }
+            if (date2 != null) {
+                LocalDateTime endDate = LocalDate.parse(date2, formatter).atStartOfDay();
+                predicates.add(cb.lessThan(root.get("createAt"), endDate));
+            }
+        }
+
+        if (status != null && !status.isEmpty()){
+            predicates.add(root.get("status").in(status));
+        }
+
+        finalPredicate = cb.and(predicates.toArray(new Predicate[0]));
+
+        criteriaQuery.orderBy(pageable.getSort().stream()
+                .map(order -> {
+                    if (order.isAscending()) {
+                        return cb.asc(root.get(order.getProperty()));
+                    } else {
+                        return cb.desc(root.get(order.getProperty()));
+                    }
+                })
+                .collect(Collectors.toList()));
+        criteriaQuery.where(finalPredicate);
+
+        TypedQuery<OrderEntity> typedQuery = entityManager.createQuery(criteriaQuery);
+        typedQuery.setFirstResult((int)pageable.getOffset());
+        typedQuery.setMaxResults(pageable.getPageSize());
+
+        CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
+        countQuery.select(cb.count(countQuery.from(OrderEntity.class)));
+        countQuery.where(finalPredicate);
+        Long totalRecords = entityManager.createQuery(countQuery).getSingleResult();
+
+        List<OrderDTO> orderDTOList = orderMapper.map(typedQuery.getResultList());
+
+        return new PageImpl<>(orderDTOList,pageable,totalRecords);
     }
 
     @Override

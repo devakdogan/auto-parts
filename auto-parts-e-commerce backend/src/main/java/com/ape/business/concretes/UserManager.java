@@ -10,6 +10,7 @@ import com.ape.entity.dao.UserDao;
 import com.ape.entity.dto.UserDTO;
 import com.ape.entity.dto.UserDeleteDTO;
 import com.ape.entity.dto.request.LoginRequest;
+import com.ape.entity.dto.request.PasswordUpdateRequest;
 import com.ape.entity.dto.request.RegisterRequest;
 import com.ape.entity.dto.request.UserUpdateRequest;
 import com.ape.entity.dto.response.LoginResponse;
@@ -340,5 +341,17 @@ public class UserManager implements UserService {
     @Override
     public List<UserEntity> findUserByRole(RoleType role) {
         return userDao.findByRole(role);
+    }
+
+    @Override
+    public void updatePassword(PasswordUpdateRequest passwordUpdateRequest) {
+        UserEntity user=getCurrentUser();
+        if (!passwordEncoder.matches(passwordUpdateRequest.getOldPassword(), user.getPassword())) {
+            throw new BadRequestException(ErrorMessage.PASSWORD_NOT_MATCHED);
+        }
+
+        String hashedPassword= passwordEncoder.encode(passwordUpdateRequest.getNewPassword());
+        user.setPassword(hashedPassword);
+        userDao.save(user);
     }
 }
