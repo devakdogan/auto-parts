@@ -3,6 +3,7 @@ package com.ape.business.abstracts;
 import com.ape.entity.dto.UserDTO;
 import com.ape.entity.dto.UserDeleteDTO;
 import com.ape.entity.dto.request.LoginRequest;
+import com.ape.entity.dto.request.PasswordUpdateRequest;
 import com.ape.entity.dto.request.RegisterRequest;
 import com.ape.entity.dto.request.UserUpdateRequest;
 import com.ape.entity.dto.response.LoginResponse;
@@ -28,5 +29,5 @@ public interface UserService {
     UserEntity getUserById(Long userId);
     UserDeleteDTO adminRemoveUserById(Long id);
     List<UserEntity> findUserByRole(RoleType role);
-
+    void updatePassword(PasswordUpdateRequest passwordUpdateRequest);
 }

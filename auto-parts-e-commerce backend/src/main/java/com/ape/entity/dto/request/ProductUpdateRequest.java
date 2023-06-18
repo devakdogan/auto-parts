@@ -40,7 +40,7 @@ public class ProductUpdateRequest {
 
     private Integer stockAlarmLimit;
 
-    private Set<String> images;
+    private Set<String> imageId;
 
     private ProductStatus status;
 

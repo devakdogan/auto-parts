@@ -198,7 +198,7 @@ public class ProductManager implements ProductService {
     public ProductDTO updateProduct(Long id, ProductUpdateRequest productUpdateRequest) {
         ProductEntity product = findProductById(id);
         Set<ImageFileEntity> imageFiles = product.getImages();
-        for (String each:productUpdateRequest.getImages()) {
+        for (String each:productUpdateRequest.getImageId()) {
             ProductEntity foundProduct = productDao.findProductByImageId(each);
             if (foundProduct==null){
                 imageFiles.add(imageService.getImageById(each));

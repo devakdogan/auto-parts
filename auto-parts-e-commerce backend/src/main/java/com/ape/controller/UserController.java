@@ -3,6 +3,7 @@ package com.ape.controller;
 import com.ape.business.abstracts.UserService;
 import com.ape.entity.dto.UserDTO;
 import com.ape.entity.dto.UserDeleteDTO;
+import com.ape.entity.dto.request.PasswordUpdateRequest;
 import com.ape.entity.dto.request.UserUpdateRequest;
 import com.ape.entity.dto.response.DataResponse;
 import com.ape.entity.dto.response.Response;
@@ -47,6 +48,14 @@ public class UserController {
     public ResponseEntity<UserDTO> getUser() {
         UserDTO userDTO = userService.getPrincipal();
         return ResponseEntity.ok(userDTO);
+    }
+
+    @PatchMapping("/auth")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('CUSTOMER') or hasRole('MANAGER')")
+    public ResponseEntity<Response> updatePassword(@Valid @RequestBody PasswordUpdateRequest passwordUpdateRequest) {
+        userService.updatePassword(passwordUpdateRequest);
+        Response response = new Response(ResponseMessage.PASSWORD_CHANGED_RESPONSE_MESSAGE, true);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/auth/all")

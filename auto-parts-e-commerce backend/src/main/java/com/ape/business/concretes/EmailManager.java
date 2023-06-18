@@ -797,7 +797,7 @@ public class EmailManager implements EmailService {
                 "<body>\n" +
                 "  <div class=\"container\">\n" +
                 "    <h1>Dear Admin "+adminName+",</h1>\n" +
-                "    <h3>You have mail from user "+contactMessageRequest.getSubject()+" about "+contactMessageRequest.getSubject()+"</h3>\n" +
+                "    <h3>You have mail from user "+contactMessageRequest.getName()+" about "+contactMessageRequest.getSubject()+"</h3>\n" +
                 "    <p>"+contactMessageRequest.getBody()+"</p>\n" +
                 "    <hr>\n" +
                 "    <p>If you wish to respond to the user, the email address is provided below:</p>\n" +
